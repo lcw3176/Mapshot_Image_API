@@ -17,6 +17,12 @@
 유저는 uuid를 통해 자신의 이미지를 발급받습니다.
 
 ## 기술 스택
+- Java 11, Spring Boot
+- WebSocket, Async
+- ChromeDriver, Selenium
+- Slack API, WhaTap
+- Github WebHook, Jenkins
+- Nginx
 
 ## 관련 프로젝트
 - 메인 프로젝트 서버: [Mapshot_Service](https://github.com/lcw3176/Mapshot_Service)
