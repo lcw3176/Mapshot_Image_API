@@ -28,7 +28,7 @@ public class UserMapRequest {
                 .newInstance()
                 .scheme("https")
                 .host("richshrimp.tk")
-                .path("/map/gen/" + this.companyType.getType())
+                .path("/map/gen/" + this.companyType.toString())
                 .queryParam("layerMode", this.layerMode)
                 .queryParam("lat", this.lat)
                 .queryParam("lng", this.lng)
