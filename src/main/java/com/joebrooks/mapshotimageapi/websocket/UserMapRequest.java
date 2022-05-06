@@ -27,7 +27,7 @@ public class UserMapRequest {
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("https")
-                .host("richshrimp.tk")
+                .host("kmapshot.com")
                 .path("/map/gen/" + this.companyType.toString())
                 .queryParam("layerMode", this.layerMode)
                 .queryParam("lat", this.lat)
