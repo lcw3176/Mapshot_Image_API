@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/map/storage")
-@CrossOrigin("https://richshrimp.tk")
 public class TaskController {
 
     private final TaskService taskService;
