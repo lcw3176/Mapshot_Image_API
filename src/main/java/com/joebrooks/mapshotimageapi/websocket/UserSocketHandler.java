@@ -46,9 +46,11 @@ public class UserSocketHandler extends TextWebSocketHandler {
                 try {
                     session.sendMessage(new TextMessage(mapper.writeValueAsString(result)));
                 } catch (Exception e) {
-                    log.error("지도 전송 실패", e);
-                    slackClient.sendMessage("지도 전송 실패", e);
+                    log.error("대기열 전송 실패", e);
+                    slackClient.sendMessage("대기열 전송 실패", e);
                 }
+            } else {
+                taskService.popImage(result.getUuid());
             }
         });
     }
