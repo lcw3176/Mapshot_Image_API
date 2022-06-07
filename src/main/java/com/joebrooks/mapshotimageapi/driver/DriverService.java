@@ -16,8 +16,13 @@ public class DriverService{
     private final WebDriverWait webDriverWait;
 
     public void loadPage(UriComponents uri){
-        chromeDriverExtends.get(uri.toString());
-        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.id("checker_true")));
+        try {
+            chromeDriverExtends.get(uri.toString());
+            webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.id("checker_true")));
+        } catch (Exception e){
+            throw new LoadMapException("지도 로딩 에러", e);
+        }
+
     }
 
     public void scrollPage(int x, int y){
@@ -32,7 +37,11 @@ public class DriverService{
     }
 
     public ByteArrayResource capturePage(){
-        return new ByteArrayResource(chromeDriverExtends.getScreenshot());
+        try {
+            return new ByteArrayResource(chromeDriverExtends.getScreenshot());
+        } catch (Exception e){
+            throw new ScreenshotException("스크린샷 에러", e);
+        }
     }
 
 }
