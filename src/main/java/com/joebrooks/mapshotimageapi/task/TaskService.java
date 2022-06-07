@@ -78,15 +78,15 @@ public class TaskService {
             return CompletableFuture.completedFuture(null);
         }
 
+
         UserMapResponse response;
         ByteArrayResource byteArrayResource = null;
         try {
-            byteArrayResource = new ByteArrayResource(driverService.capturePage(request.getUri()));
-
-        } catch (Exception e) {
+            driverService.loadPage(request.getUri());
+            byteArrayResource = driverService.capturePage();
+        } catch (Exception e){
             log.error("지도 캡쳐 에러", e);
             slackClient.sendMessage("지도 캡쳐 에러", e);
-
         } finally {
             String uuid = UUID.randomUUID().toString();
             imageMap.put(uuid, byteArrayResource);

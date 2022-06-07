@@ -27,17 +27,17 @@ public class ChromeDriverExtends extends ChromeDriver {
         defineCommand.invoke(super.getCommandExecutor(), "sendCommand", cmd);
     }
 
-    public byte[] getFullScreenshot() {
-        Object metrics = sendEvaluate(
-                "({" +
-                        "width: Math.max(window.innerWidth,document.body.scrollWidth,document.documentElement.scrollWidth)|0," +
-                        "height: Math.max(window.innerHeight,document.body.scrollHeight,document.documentElement.scrollHeight)|0," +
-                        "deviceScaleFactor: window.devicePixelRatio || 1," +
-                        "mobile: typeof window.orientation !== 'undefined'" +
-                        "})");
-        sendCommand("Emulation.setDeviceMetricsOverride", metrics);
-        Object result = sendCommand("Page.captureScreenshot", ImmutableMap.of("format", "jpeg",  "quality", 80));
-        sendCommand("Emulation.clearDeviceMetricsOverride", ImmutableMap.of());
+    public byte[] getScreenshot() {
+//        Object metrics = sendEvaluate(
+//                "({" +
+//                        "width: Math.max(window.innerWidth,document.body.scrollWidth,document.documentElement.scrollWidth)|0," +
+//                        "height: Math.max(window.innerHeight,document.body.scrollHeight,document.documentElement.scrollHeight)|0," +
+//                        "deviceScaleFactor: window.devicePixelRatio || 1," +
+//                        "mobile: typeof window.orientation !== 'undefined'" +
+//                        "})");
+//        sendCommand("Emulation.setDeviceMetricsOverride", metrics);
+        Object result = sendCommand("Page.captureScreenshot", ImmutableMap.of("format", "jpeg"));
+//        sendCommand("Emulation.clearDeviceMetricsOverride", ImmutableMap.of());
         String data = ((Map<String, String>)result).get("data");
 
         return Base64.getDecoder().decode(data);

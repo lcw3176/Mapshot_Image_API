@@ -15,6 +15,12 @@ public class UserMapResponse {
     @JsonProperty("index")
     private int index;
 
+    @JsonProperty("x")
+    private int x;
+
+    @JsonProperty("y")
+    private int y;
+
     @JsonProperty("done")
     private boolean done;
 
