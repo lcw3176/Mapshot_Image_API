@@ -3,10 +3,11 @@ package com.joebrooks.mapshotimageapi.map.google;
 import com.joebrooks.mapshotimageapi.map.IMapRadius;
 
 public enum GoogleMapRadius implements IMapRadius {
-    ONE(1, 5500),
-    TWO(2, 4500),
-    FIVE(5, 5500),
-    TEN(10, 5500);
+    // 계산 편의상 width 크기 500px 크게 설정함
+    ONE(1, 6000),
+    TWO(2, 5000),
+    FIVE(5, 6000),
+    TEN(10, 6000);
 
 
     private final int width;
