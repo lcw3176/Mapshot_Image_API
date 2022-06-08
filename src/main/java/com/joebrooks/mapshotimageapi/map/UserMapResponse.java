@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.websocket;
+package com.joebrooks.mapshotimageapi.map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -15,8 +15,11 @@ public class UserMapResponse {
     @JsonProperty("index")
     private int index;
 
-    @JsonProperty("done")
-    private boolean done;
+    @JsonProperty("x")
+    private int x;
+
+    @JsonProperty("y")
+    private int y;
 
     @JsonProperty("uuid")
     private String uuid;
