@@ -1,8 +1,8 @@
 package com.joebrooks.mapshotimageapi.task;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.driver.DriverService;
-import com.joebrooks.mapshotimageapi.driver.LoadMapException;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.global.util.UriGenerator;
 import com.joebrooks.mapshotimageapi.global.util.WidthExtractor;
@@ -14,10 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,86 +31,54 @@ public class TaskService {
     private final DriverService driverService;
     private final SlackClient slackClient;
     private final WebSocketSessionManager webSocketSessionManager;
+    private final ObjectMapper mapper = new ObjectMapper();
 
-
-//    @Async
-//    public CompletableFuture<UserMapResponse> execute(UserMapRequest request, WebSocketSession session){
-//
-//        if(!session.isOpen()){
-//            webSocketSessionManager.removeSession(session);
-//            return CompletableFuture.completedFuture(null);
-//        }
-//
-//        try{
-//            driverService.loadPage(UriGenerator.getUri(request));
-//        } catch (Exception e){
-//            log.error("지도 로딩 에러", e);
-//            slackClient.sendMessage("지도 로딩 에러", e);
-//        }
-//
-//
-//        UserMapResponse response;
-//        ByteArrayResource byteArrayResource = null;
-//        try {
-//            byteArrayResource = driverService.capturePage();
-//        } catch (Exception e){
-//            log.error("지도 캡쳐 에러", e);
-//            slackClient.sendMessage("지도 캡쳐 에러", e);
-//        } finally {
-//            String uuid = UUID.randomUUID().toString();
-//            imageMap.put(uuid, byteArrayResource);
-//            response = UserMapResponse.builder()
-//                    .done(true)
-//                    .index(0)
-//                    .uuid(uuid)
-//                    .build();
-//        }
-//
-//        return CompletableFuture.completedFuture(response);
-//    }
 
     @Async
-    public CompletableFuture<Void> execute(UserMapRequest request, WebSocketSession session){
+    public void execute(UserMapRequest request, WebSocketSession session){
 
         if(!session.isOpen()){
             webSocketSessionManager.removeSession(session);
-            return new CompletableFuture<Void>();
+            return;
         }
 
         try{
             driverService.loadPage(UriGenerator.getUri(request));
             int width = WidthExtractor.extract(request);
 
-        } catch (NoSuchElementException e){
-            log.error("반경 탐색 에러", e);
-            slackClient.sendMessage("반경 캡쳐 에러", e);
-        } catch (LoadMapException e) {
-            log.error("지도 로딩 에러", e);
-            slackClient.sendMessage("지도 로딩 에러", e);
+            for(int y = 0; y < width; y+= 1000){
+                for(int x = 0; x < width; x+= 1000){
+                    try {
+                        driverService.scrollPage(x, y);
+                        ByteArrayResource byteArrayResource = driverService.capturePage();
+                        String uuid = UUID.randomUUID().toString();
+                        imageMap.put(uuid, byteArrayResource);
+                        UserMapResponse response = UserMapResponse.builder()
+                                .index(0)
+                                .x(x)
+                                .y(y)
+                                .uuid(uuid)
+                                .build();
+
+                        if(session.isOpen()){
+                            session.sendMessage(new TextMessage(mapper.writeValueAsString(response)));
+                        } else {
+                            popImage(response.getUuid());
+                            return;
+                        }
+                    } catch (Exception e){
+                        log.error(e.getMessage(), e);
+                        slackClient.sendMessage(e.getMessage(), e);
+                    }
+                }
+            }
+
+
         } catch (Exception e){
-            log.error("지도 가공 에러", e);
-            slackClient.sendMessage("지도 가공 에러", e);
+            log.error(e.getMessage(), e);
+            slackClient.sendMessage(e.getMessage(), e);
         }
 
-
-
-        UserMapResponse response;
-        ByteArrayResource byteArrayResource = null;
-        try {
-            byteArrayResource = driverService.capturePage();
-        } catch (Exception e){
-            log.error("지도 캡쳐 에러", e);
-            slackClient.sendMessage("지도 캡쳐 에러", e);
-        } finally {
-            String uuid = UUID.randomUUID().toString();
-            imageMap.put(uuid, byteArrayResource);
-            response = UserMapResponse.builder()
-                    .index(0)
-                    .uuid(uuid)
-                    .build();
-        }
-
-        return new CompletableFuture<Void>();
     }
 
 

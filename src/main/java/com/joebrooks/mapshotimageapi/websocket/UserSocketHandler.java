@@ -43,18 +43,6 @@ public class UserSocketHandler extends TextWebSocketHandler {
         }
 
         webSocketSessionManager.sendWaitersCount(session);
-//        taskService.execute(request, session).thenAccept(result -> {
-//            if(session.isOpen()){
-//                try {
-//                    session.sendMessage(new TextMessage(mapper.writeValueAsString(result)));
-//                } catch (Exception e) {
-//                    log.error("이미지 완료 알림 전송 실패", e);
-//                    slackClient.sendMessage("이미지 완료 알림 전송 실패", e);
-//                }
-//            } else {
-//                taskService.popImage(result.getUuid());
-//            }
-//        });
         taskService.execute(request, session);
     }
 

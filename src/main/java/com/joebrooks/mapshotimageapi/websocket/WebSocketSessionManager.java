@@ -17,7 +17,7 @@ import java.util.LinkedList;
 @Slf4j
 public class WebSocketSessionManager {
 
-    private final LinkedList<WebSocketSession> sessionList = new LinkedList<>();
+    private final static LinkedList<WebSocketSession> sessionList = new LinkedList<>();
     private final ObjectMapper mapper = new ObjectMapper();
     private final SlackClient slackClient;
 
