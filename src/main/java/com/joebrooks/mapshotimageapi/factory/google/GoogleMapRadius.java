@@ -1,6 +1,6 @@
-package com.joebrooks.mapshotimageapi.map.google;
+package com.joebrooks.mapshotimageapi.factory.google;
 
-import com.joebrooks.mapshotimageapi.map.IMapRadius;
+import com.joebrooks.mapshotimageapi.factory.IMapRadius;
 
 public enum GoogleMapRadius implements IMapRadius {
     // 계산 편의상 width 크기 500px 크게 설정함

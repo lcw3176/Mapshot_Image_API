@@ -3,8 +3,8 @@ package com.joebrooks.mapshotimageapi.websocket;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
-import com.joebrooks.mapshotimageapi.map.UserMapRequest;
-import com.joebrooks.mapshotimageapi.task.TaskService;
+import com.joebrooks.mapshotimageapi.factory.UserMapRequest;
+import com.joebrooks.mapshotimageapi.factory.FactoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class UserSocketHandler extends TextWebSocketHandler {
 
     private final WebSocketSessionManager webSocketSessionManager;
-    private final TaskService taskService;
+    private final FactoryService factoryService;
     private final SlackClient slackClient;
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -43,7 +43,7 @@ public class UserSocketHandler extends TextWebSocketHandler {
         }
 
         webSocketSessionManager.sendWaitersCount(session);
-        taskService.execute(request, session);
+        factoryService.execute(request, session);
     }
 
     @Override

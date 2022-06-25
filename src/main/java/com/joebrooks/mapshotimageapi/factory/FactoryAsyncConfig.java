@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.task;
+package com.joebrooks.mapshotimageapi.factory;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
@@ -9,7 +9,7 @@ import java.util.concurrent.Executor;
 
 @Configuration
 @EnableAsync
-public class AsyncConfig extends AsyncConfigurerSupport {
+public class FactoryAsyncConfig extends AsyncConfigurerSupport {
 
     @Override
     public Executor getAsyncExecutor() {
