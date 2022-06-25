@@ -27,7 +27,7 @@ public class DriverService{
             chromeDriverExtends.get(uri.toString());
             webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.id("checker_true")));
         } catch (Exception e){
-            throw new LoadPageException("지도 로딩 에러", e);
+            throw new LoadPageException(e);
         }
 
     }
@@ -43,7 +43,7 @@ public class DriverService{
 
             chromeDriverExtends.executeScript(sb.toString());
         } catch (Exception e){
-            throw new ScrollException("스크롤 스크립트 에러", e);
+            throw new ScrollException(e);
         }
 
     }
@@ -52,7 +52,7 @@ public class DriverService{
         try {
             return new ByteArrayResource(chromeDriverExtends.getScreenshot());
         } catch (Exception e){
-            throw new ScreenshotException("스크린샷 에러", e);
+            throw new ScreenshotException(e);
         }
     }
 
