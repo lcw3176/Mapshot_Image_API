@@ -12,6 +12,11 @@ import org.springframework.web.socket.WebSocketSession;
 import java.io.IOException;
 import java.util.LinkedList;
 
+/*
+웹소켓 세션을 관리하는 클래스입니다.
+세션 추가, 삭제, 대기하는 유저들에게 현재 자신이 몇 번째 순번인지
+알려주고 있습니다.
+*/
 @Component
 @RequiredArgsConstructor
 @Slf4j

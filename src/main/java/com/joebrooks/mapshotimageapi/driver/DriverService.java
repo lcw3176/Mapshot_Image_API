@@ -11,6 +11,10 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 
+/*
+크롬 웹 드라이버의 동작을 관리합니다.
+페이지를 로드, 스크롤, 캡쳐하는 기능을 포함하고 있습니다.
+*/
 @Service
 @RequiredArgsConstructor
 public class DriverService{

@@ -42,6 +42,7 @@ public class UserSocketHandler extends TextWebSocketHandler {
             return;
         }
 
+        // 현재 유저가 몇 번째 대기유저인지 보내준 후, 작업 시작
         webSocketSessionManager.sendWaitersCount(session);
         factoryService.execute(request, session);
     }

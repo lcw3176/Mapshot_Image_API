@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/*
+크롬 웹 드라이버의 동작을 관리합니다.
+페이지를 로드, 스크롤, 캡쳐하는 기능을 포함하고 있습니다.
+*/
 @Component
 @RequiredArgsConstructor
 @Slf4j
