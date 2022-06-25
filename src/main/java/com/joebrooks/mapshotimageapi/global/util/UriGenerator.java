@@ -1,6 +1,6 @@
 package com.joebrooks.mapshotimageapi.global.util;
 
-import com.joebrooks.mapshotimageapi.map.UserMapRequest;
+import com.joebrooks.mapshotimageapi.factory.UserMapRequest;
 import lombok.experimental.UtilityClass;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;

@@ -1,7 +1,7 @@
-package com.joebrooks.mapshotimageapi.map;
+package com.joebrooks.mapshotimageapi.factory;
 
-import com.joebrooks.mapshotimageapi.map.google.GoogleMapRadius;
-import com.joebrooks.mapshotimageapi.map.kakao.KakaoMapRadius;
+import com.joebrooks.mapshotimageapi.factory.google.GoogleMapRadius;
+import com.joebrooks.mapshotimageapi.factory.kakao.KakaoMapRadius;
 import lombok.Getter;
 
 @Getter

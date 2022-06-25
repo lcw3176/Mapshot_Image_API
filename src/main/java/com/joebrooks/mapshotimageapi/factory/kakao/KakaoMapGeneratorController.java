@@ -1,6 +1,6 @@
-package com.joebrooks.mapshotimageapi.map.kakao;
+package com.joebrooks.mapshotimageapi.factory.kakao;
 
-import com.joebrooks.mapshotimageapi.map.UserMapRequest;
+import com.joebrooks.mapshotimageapi.factory.UserMapRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

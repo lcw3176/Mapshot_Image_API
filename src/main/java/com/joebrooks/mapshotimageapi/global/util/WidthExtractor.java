@@ -1,12 +1,10 @@
 package com.joebrooks.mapshotimageapi.global.util;
 
-import com.joebrooks.mapshotimageapi.map.IMapRadius;
-import com.joebrooks.mapshotimageapi.map.UserMapRequest;
+import com.joebrooks.mapshotimageapi.factory.UserMapRequest;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @UtilityClass
 public class WidthExtractor {

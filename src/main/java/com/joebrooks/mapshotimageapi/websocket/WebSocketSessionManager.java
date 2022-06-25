@@ -2,7 +2,7 @@ package com.joebrooks.mapshotimageapi.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
-import com.joebrooks.mapshotimageapi.map.UserMapResponse;
+import com.joebrooks.mapshotimageapi.factory.UserMapResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
