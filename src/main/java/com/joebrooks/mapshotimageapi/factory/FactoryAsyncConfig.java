@@ -18,6 +18,7 @@ public class FactoryAsyncConfig extends AsyncConfigurerSupport {
         executor.setMaxPoolSize(1);
         executor.setQueueCapacity(50);
         executor.setThreadNamePrefix("CAPTURE-ASYNC-");
+        executor.setAwaitTerminationSeconds(60 * 10);
         executor.setKeepAliveSeconds(60 * 10);
         executor.initialize();
         return executor;
