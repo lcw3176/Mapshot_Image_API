@@ -35,7 +35,7 @@ jobs:
           port: ${{ secrets.PORT }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            pid=`ps aux | grep "mapshotImageApi.jar" | awk '{print $2}'`
+            pid=`ps aux | grep "[m]apshotImageApi.jar" | awk '{print $2}'`
             if [ "$pid" == "" ]; then
               echo "Process not found"
             else
