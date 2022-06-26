@@ -1,0 +1,68 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-job:
+    name: Build Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Start build job'
+        run: echo "Starting the build job."
+
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+
+      - name: 'Setup Java'
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: 'Grant execute permission for gradlew'
+        run: chmod +x gradlew
+
+      - name: 'Build JAR'
+        run: ./gradlew bootJar
+
+      - name: 'Stop App'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script: |
+            pid=`ps aux | grep "mapshotImageApi.jar" | awk '{print $2}'`
+            if [ "$pid" == "" ]; then
+              echo "Process not found"
+            else
+              kill -15 $pid
+            fi
+            sudo mkdir -p /app
+
+      - name: 'Push JAR'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          source: "build/libs/mapshotImageApi.jar"
+          target: "app"
+          strip_components: 2
+
+
+      - name: 'Start App'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script: |
+            nohup java -jar -Duser.timezone=Asia/Seoul -Xms300m -Xmx300m -server -XX:OnOutOfMemoryError=restart.sh mapshotImageApi.jar 2>> /dev/null >> /dev/null &
