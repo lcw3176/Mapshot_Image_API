@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /*
-크롬 웹 드라이버의 동작을 관리합니다.
-페이지를 로드, 스크롤, 캡쳐하는 기능을 포함하고 있습니다.
+이미지를 임시로 보관하는 역할을 합니다.
+uuid를 통해 이미지를 저장, 발급해줍니다.
 */
 @Component
 @RequiredArgsConstructor

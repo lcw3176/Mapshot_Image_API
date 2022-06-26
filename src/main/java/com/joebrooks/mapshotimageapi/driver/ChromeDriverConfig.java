@@ -58,7 +58,7 @@ public class ChromeDriverConfig {
 
     @Bean
     public WebDriverWait webDriverWait() throws Exception {
-        return new WebDriverWait(chromeDriverExtends(), 60L);
+        return new WebDriverWait(chromeDriverExtends(), 40L);
     }
 
 }

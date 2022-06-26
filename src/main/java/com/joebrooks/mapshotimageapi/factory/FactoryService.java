@@ -1,8 +1,10 @@
 package com.joebrooks.mapshotimageapi.factory;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.driver.DriverService;
+import com.joebrooks.mapshotimageapi.driver.exception.LoadPageException;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.global.util.UriGenerator;
 import com.joebrooks.mapshotimageapi.global.util.WidthExtractor;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.util.UUID;
 
 /*
@@ -38,7 +41,7 @@ public class FactoryService {
 
 
     @Async
-    public void execute(UserMapRequest request, WebSocketSession session){
+    public void execute(UserMapRequest request, WebSocketSession session) throws IOException {
 
         if(!session.isOpen()){
             webSocketSessionManager.removeSession(session);
@@ -81,6 +84,12 @@ public class FactoryService {
 
 
         } catch (Exception e){
+            UserMapResponse response = UserMapResponse.builder()
+                    .index(0)
+                    .error(true)
+                    .build();
+
+            session.sendMessage(new TextMessage(mapper.writeValueAsString(response)));
             log.error(e.getMessage(), e);
             slackClient.sendMessage(e.getMessage(), e);
         }
