@@ -65,4 +65,4 @@ jobs:
           port: ${{ secrets.PORT }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            nohup java -jar -Duser.timezone=Asia/Seoul -Xms300m -Xmx300m -server -XX:OnOutOfMemoryError=restart.sh mapshotImageApi.jar 2>> /dev/null >> /dev/null &
+            nohup java -jar -Duser.timezone=Asia/Seoul -Xms300m -Xmx300m -server -XX:OnOutOfMemoryError=restart.sh ./app/mapshotImageApi.jar 2>> /dev/null >> /dev/null &
