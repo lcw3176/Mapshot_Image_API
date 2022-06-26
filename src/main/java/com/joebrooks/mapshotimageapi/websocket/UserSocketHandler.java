@@ -13,6 +13,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -30,7 +32,7 @@ public class UserSocketHandler extends TextWebSocketHandler {
 
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) {
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         UserMapRequest request;
 
         try{
