@@ -24,4 +24,7 @@ public class UserMapResponse {
     @JsonProperty("uuid")
     private String uuid;
 
+    @JsonProperty("error")
+    private boolean error;
+
 }
