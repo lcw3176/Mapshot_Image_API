@@ -1,10 +1,8 @@
 package com.joebrooks.mapshotimageapi.factory;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.driver.DriverService;
-import com.joebrooks.mapshotimageapi.driver.exception.LoadPageException;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.global.util.UriGenerator;
 import com.joebrooks.mapshotimageapi.global.util.WidthExtractor;
