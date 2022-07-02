@@ -21,7 +21,7 @@
 - WebSocket, Async
 - ChromeDriver, Selenium
 - Slack API, WhaTap
-- Github WebHook, Jenkins
+- GitHub Action
 - Nginx
 
 ## 관련 프로젝트
