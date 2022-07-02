@@ -8,6 +8,7 @@
 <p align="center">
   <a href="#서비스-소개">프로젝트 소개</a> •
   <a href="#기술-스택">기술 스택</a> •
+  <a href="#서비스-구조도">서비스 구조도</a> •
   <a href="#관련-프로젝트">관련 프로젝트</a>
 </p>
 
@@ -30,3 +31,4 @@
 
 ## 관련 프로젝트
 - 메인 프로젝트 서버: [Mapshot_Service](https://github.com/lcw3176/Mapshot_Service)
+- 클라이언트 지도 조립 라이브러리: [mapshot-lib](https://github.com/lcw3176/mapshot-lib)
