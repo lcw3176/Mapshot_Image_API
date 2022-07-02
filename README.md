@@ -24,5 +24,9 @@
 - GitHub Action
 - Nginx
 
+## 서비스 구조도
+![구조도](https://user-images.githubusercontent.com/59993347/176987753-a7427c28-fccb-4006-905b-a2e77adc3255.png)
+
+
 ## 관련 프로젝트
 - 메인 프로젝트 서버: [Mapshot_Service](https://github.com/lcw3176/Mapshot_Service)
