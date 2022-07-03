@@ -36,6 +36,17 @@ public class WebSocketSessionManager {
     
     // 단일 유저에게 현재 대기 인원 보내기
     public void sendWaitersCount(WebSocketSession session) {
+        sendMessage(session);
+    }
+
+    // 전체 유저에게 현재 대기 인원 보내기
+    public void sendWaitersCount() {
+        for (WebSocketSession session : sessionList) {
+            sendMessage(session);
+        }
+    }
+
+    private void sendMessage(WebSocketSession session){
         UserMapResponse refreshedResponse = UserMapResponse.builder()
                 .index(sessionList.indexOf(session))
                 .build();
@@ -45,24 +56,6 @@ public class WebSocketSessionManager {
         } catch (IOException e){
             log.error("대기열 알람 전송 에러", e);
             slackClient.sendMessage("대기열 알람 전송 에러", e);
-        }
-
-    }
-
-    // 전체 유저에게 현재 대기 인원 보내기
-    public void sendWaitersCount() {
-        for(int i = 0; i < sessionList.size(); i++){
-            UserMapResponse refreshedResponse = UserMapResponse.builder()
-                    .index(sessionList.indexOf(sessionList.get(i)))
-                    .build();
-
-            try{
-                sessionList.get(i).sendMessage(new TextMessage(mapper.writeValueAsString(refreshedResponse)));
-            } catch (IOException e){
-                log.error("대기열 알람 전송 에러", e);
-                slackClient.sendMessage("대기열 알람 전송 에러", e);
-            }
-
         }
     }
 }
