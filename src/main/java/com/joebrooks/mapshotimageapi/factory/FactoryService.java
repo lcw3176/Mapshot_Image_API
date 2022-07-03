@@ -34,7 +34,6 @@ public class FactoryService {
     private final StorageManager storageManager;
     private final DriverService driverService;
     private final SlackClient slackClient;
-    private final WebSocketSessionManager webSocketSessionManager;
     private final ObjectMapper mapper = new ObjectMapper();
 
 
@@ -42,7 +41,6 @@ public class FactoryService {
     public void execute(UserMapRequest request, WebSocketSession session) throws IOException {
 
         if(!session.isOpen()){
-            webSocketSessionManager.removeSession(session);
             return;
         }
 
