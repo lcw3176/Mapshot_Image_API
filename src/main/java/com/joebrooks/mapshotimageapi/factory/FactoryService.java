@@ -10,6 +10,7 @@ import com.joebrooks.mapshotimageapi.storage.StorageManager;
 import com.joebrooks.mapshotimageapi.websocket.WebSocketSessionManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,10 @@ uuid 값을 유저에게 웹소켓으로 전송해줍니다.
 @Slf4j
 public class FactoryService {
 
+    @Value("${map.image.dividedWidth}")
+    private int dividedWidth;
+
+
     private final StorageManager storageManager;
     private final DriverService driverService;
     private final SlackClient slackClient;
@@ -48,8 +53,8 @@ public class FactoryService {
             driverService.loadPage(UriGenerator.getUri(request));
             int width = WidthExtractor.extract(request);
 
-            for(int y = 0; y < width; y+= 1000){
-                for(int x = 0; x < width; x+= 1000){
+            for(int y = 0; y < width; y+= dividedWidth){
+                for(int x = 0; x < width; x+= dividedWidth){
                     try {
                         driverService.scrollPage(x, y);
                         ByteArrayResource byteArrayResource = driverService.capturePage();
