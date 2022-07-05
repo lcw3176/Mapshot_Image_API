@@ -2,7 +2,6 @@ package com.joebrooks.mapshotimageapi.factory;
 
 
 import com.joebrooks.mapshotimageapi.driver.DriverService;
-import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
 import com.joebrooks.mapshotimageapi.global.model.UserMapResponse;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.global.util.UriGenerator;
@@ -14,12 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.WebSocketSession;
 
 import javax.annotation.PostConstruct;
-import java.util.Queue;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 /*
 알맞은 좌표의 위성 이미지를 요청한 후 이미지를 크롤링합니다.
@@ -36,25 +32,19 @@ public class FactoryService {
     @Value("${map.image.dividedWidth}")
     private int dividedWidth;
 
-    private volatile Queue<FactoryTask> userMapRequestsQueue = new ConcurrentLinkedQueue<>();
+    private final FactoryManager factoryManager;
     private final ApplicationEventPublisher applicationEventPublisher;
     private final DriverService driverService;
     private final SlackClient slackClient;
 
-    public void addTask(UserMapRequest request, WebSocketSession session){
-        userMapRequestsQueue.offer(FactoryTask.builder()
-                .userMapRequest(request)
-                .session(session)
-                .build());
-    }
 
     @PostConstruct
     private void init(){
         Thread thread = new Thread(() -> {
 
             while(true){
-                while(!userMapRequestsQueue.isEmpty()){
-                    FactoryTask task = userMapRequestsQueue.poll();
+                while(!factoryManager.isEmpty()){
+                    FactoryTask task = factoryManager.getTask();
                     try{
                         driverService.loadPage(UriGenerator.getUri(task.getUserMapRequest()));
                         int width = WidthExtractor.extract(task.getUserMapRequest());
