@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.v99.network.Network;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,6 +14,12 @@ import java.util.Optional;
 
 @Configuration
 public class ChromeDriverConfig {
+
+    @Value("${map.image.dividedWidth}")
+    private int width;
+
+    @Value("${map.process.timeout}")
+    private long timeout;
 
     @Bean
     public ChromeOptions chromeOptions(){
@@ -41,24 +48,14 @@ public class ChromeDriverConfig {
     @Bean(destroyMethod = "quit")
     public ChromeDriverExtends chromeDriverExtends() throws Exception {
         ChromeDriverExtends chromeDriverExtends = new ChromeDriverExtends(chromeOptions());
-        chromeDriverExtends.manage().window().setSize(new Dimension(1000, 1000));
-        DevTools devTools = chromeDriverExtends.getDevTools();
-        devTools.createSession();
-
-        devTools.send(
-                Network.enable(
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.of(100000000)));
-        devTools.send(Network.setCacheDisabled(true));
-        devTools.close();
+        chromeDriverExtends.manage().window().setSize(new Dimension(width, width));
 
         return chromeDriverExtends;
     }
 
     @Bean
     public WebDriverWait webDriverWait() throws Exception {
-        return new WebDriverWait(chromeDriverExtends(), 40L);
+        return new WebDriverWait(chromeDriverExtends(), timeout);
     }
 
 }
