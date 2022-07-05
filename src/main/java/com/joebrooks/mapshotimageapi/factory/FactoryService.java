@@ -80,7 +80,9 @@ public class FactoryService {
                                 }
                             }
 
-          
+                            if(!isRun){
+                                break;
+                            }
                         }
 
 
