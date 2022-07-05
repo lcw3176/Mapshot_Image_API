@@ -20,14 +20,14 @@ import java.io.IOException;
 @Slf4j
 public class UserSocketHandler extends TextWebSocketHandler {
 
-    private final WebSocketSessionManager webSocketSessionManager;
+    private final WebSocketSessionService webSocketSessionService;
     private final FactoryService factoryService;
     private final SlackClient slackClient;
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        webSocketSessionManager.addSession(session);
+        webSocketSessionService.addUser(session);
     }
 
 
@@ -40,20 +40,20 @@ public class UserSocketHandler extends TextWebSocketHandler {
         } catch (JsonProcessingException e){
             log.error("유효하지 않은 지도 포맷", e);
             slackClient.sendMessage(e);
-            webSocketSessionManager.removeSession(session);
+            webSocketSessionService.removeUser(session);
             return;
         }
 
         // 현재 유저가 몇 번째 대기유저인지 보내준 후, 작업 시작
-        webSocketSessionManager.sendWaitersCount(session);
-        factoryService.execute(request, session);
+        webSocketSessionService.sendWaitersCount(session);
+        factoryService.addTask(request, session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
-        webSocketSessionManager.removeSession(session);
-        webSocketSessionManager.sendWaitersCount();
+        webSocketSessionService.removeUser(session);
+        webSocketSessionService.sendWaitersCount();
     }
 
 }
