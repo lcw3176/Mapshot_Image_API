@@ -55,7 +55,7 @@ public class WebSocketSessionManager {
             session.sendMessage(new TextMessage(mapper.writeValueAsString(refreshedResponse)));
         } catch (IOException e){
             log.error("대기열 알람 전송 에러", e);
-            slackClient.sendMessage("대기열 알람 전송 에러", e);
+            slackClient.sendMessage(e);
         }
     }
 }

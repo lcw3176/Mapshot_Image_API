@@ -39,7 +39,7 @@ public class UserSocketHandler extends TextWebSocketHandler {
             request = mapper.readValue(message.getPayload(), UserMapRequest.class);
         } catch (JsonProcessingException e){
             log.error("유효하지 않은 지도 포맷", e);
-            slackClient.sendMessage("유효하지 않은 지도 포맷", e);
+            slackClient.sendMessage(e);
             webSocketSessionManager.removeSession(session);
             return;
         }

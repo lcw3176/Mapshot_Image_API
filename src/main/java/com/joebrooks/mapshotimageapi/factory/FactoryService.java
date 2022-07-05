@@ -73,7 +73,7 @@ public class FactoryService {
 
                     } catch (Exception e){
                         log.error(e.getMessage(), e);
-                        slackClient.sendMessage(e.getMessage(), e);
+                        slackClient.sendMessage(e);
                     }
                 }
             }
@@ -87,7 +87,7 @@ public class FactoryService {
 
             session.sendMessage(new TextMessage(mapper.writeValueAsString(response)));
             log.error(e.getMessage(), e);
-            slackClient.sendMessage(e.getMessage(), e);
+            slackClient.sendMessage(e);
         }
 
     }

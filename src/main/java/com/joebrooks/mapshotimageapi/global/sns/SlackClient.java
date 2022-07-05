@@ -3,6 +3,8 @@ package com.joebrooks.mapshotimageapi.global.sns;
 import com.joebrooks.mapshotimageapi.global.exception.ExceptionResponse;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Component
 public class SlackClient extends SnsClient {
 
@@ -23,22 +25,11 @@ public class SlackClient extends SnsClient {
         sendMessage(errorMessage);
     }
 
-    public void sendMessage(String name, Exception exception) {
-        ExceptionResponse errorMessage = ExceptionResponse.builder()
-                .name(name)
-                .message(makeTransmissible(exception))
-                .build();
-
-        sendMessage(errorMessage);
-    }
-
     private String makeTransmissible(Exception e){
-//        String stackTrace = Arrays.toString(e.getStackTrace());
-//        int len = Math.min(stackTrace.length(), 1700);
-//
-//        return stackTrace.substring(0, len);
+        String stackTrace = Arrays.toString(e.getStackTrace());
+        int len = Math.min(stackTrace.length(), 1700);
 
-        return e.getMessage();
+        return stackTrace.substring(0, len);
     }
 
 }
