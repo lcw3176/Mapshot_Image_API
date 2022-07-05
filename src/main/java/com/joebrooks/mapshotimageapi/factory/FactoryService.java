@@ -45,6 +45,8 @@ public class FactoryService {
             while(true){
                 while(!factoryManager.isEmpty()){
                     FactoryTask task = factoryManager.getTask();
+                    boolean isRun = true;
+
                     try{
                         driverService.loadPage(UriGenerator.getUri(task.getUserMapRequest()));
                         int width = WidthExtractor.extract(task.getUserMapRequest());
@@ -73,9 +75,12 @@ public class FactoryService {
                                             .build());
 
                                 } else {
-                                    return;
+                                    isRun = false;
+                                    break;
                                 }
                             }
+
+          
                         }
 
 
