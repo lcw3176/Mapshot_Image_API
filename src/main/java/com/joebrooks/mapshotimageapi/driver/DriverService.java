@@ -27,7 +27,7 @@ public class DriverService{
             chromeDriverExtends.get(uri.toString());
             webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.id("checker_true")));
         } catch (Exception e){
-            throw new LoadPageException(e);
+            throw new LoadPageException(uri.toString(), e);
         }
 
     }
