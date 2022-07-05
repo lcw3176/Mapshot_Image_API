@@ -42,16 +42,6 @@ public class ChromeDriverConfig {
     public ChromeDriverExtends chromeDriverExtends() throws Exception {
         ChromeDriverExtends chromeDriverExtends = new ChromeDriverExtends(chromeOptions());
         chromeDriverExtends.manage().window().setSize(new Dimension(1000, 1000));
-        DevTools devTools = chromeDriverExtends.getDevTools();
-        devTools.createSession();
-
-        devTools.send(
-                Network.enable(
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.of(100000000)));
-        devTools.send(Network.setCacheDisabled(true));
-        devTools.close();
 
         return chromeDriverExtends;
     }
