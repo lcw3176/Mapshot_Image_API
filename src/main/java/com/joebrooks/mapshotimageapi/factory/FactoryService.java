@@ -3,11 +3,12 @@ package com.joebrooks.mapshotimageapi.factory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.driver.DriverService;
+import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
+import com.joebrooks.mapshotimageapi.global.model.UserMapResponse;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.global.util.UriGenerator;
 import com.joebrooks.mapshotimageapi.global.util.WidthExtractor;
 import com.joebrooks.mapshotimageapi.storage.StorageManager;
-import com.joebrooks.mapshotimageapi.websocket.WebSocketSessionManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

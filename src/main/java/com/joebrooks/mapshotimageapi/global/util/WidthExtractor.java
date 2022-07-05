@@ -1,6 +1,6 @@
 package com.joebrooks.mapshotimageapi.global.util;
 
-import com.joebrooks.mapshotimageapi.factory.UserMapRequest;
+import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;

@@ -3,7 +3,7 @@ package com.joebrooks.mapshotimageapi.websocket;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
-import com.joebrooks.mapshotimageapi.factory.UserMapRequest;
+import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
 import com.joebrooks.mapshotimageapi.factory.FactoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

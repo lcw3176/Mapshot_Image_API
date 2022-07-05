@@ -1,6 +1,7 @@
-package com.joebrooks.mapshotimageapi.factory;
+package com.joebrooks.mapshotimageapi.global.model;
 
 
+import com.joebrooks.mapshotimageapi.factory.CompanyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
