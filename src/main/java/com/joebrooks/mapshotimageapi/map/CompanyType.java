@@ -4,13 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum CompanyType {
-    KAKAO(new IMapRadius[]{
+    kakao(new IMapRadius[]{
             KakaoMapRadius.ONE,
             KakaoMapRadius.TWO,
             KakaoMapRadius.FIVE,
             KakaoMapRadius.TEN }),
 
-    GOOGLE(new IMapRadius[]{
+    google(new IMapRadius[]{
             GoogleMapRadius.ONE,
             GoogleMapRadius.TWO,
             GoogleMapRadius.FIVE,
