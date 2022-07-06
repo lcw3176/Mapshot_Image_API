@@ -10,7 +10,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.util.LinkedList;
 
 /*
 웹소켓 세션을 관리하는 클래스입니다.
@@ -22,18 +21,18 @@ import java.util.LinkedList;
 @Slf4j
 public class WebSocketSessionService {
 
-    private static final LinkedList<WebSocketSession> sessionList = new LinkedList<>();
-    private final ObjectMapper mapper = new ObjectMapper();
     private final SlackClient slackClient;
+    private final ObjectMapper mapper = new ObjectMapper();
+    private final SessionMemoryDB sessionMemoryDB = SessionMemoryDB.getInstance();
 
-    public synchronized void addUser(WebSocketSession session){
-        if(!sessionList.contains(session)){
-            sessionList.add(session);
+    public void addUser(WebSocketSession session){
+        if(!sessionMemoryDB.contains(session)){
+            sessionMemoryDB.add(session);
         }
     }
 
-    public synchronized void removeUser(WebSocketSession session){
-        sessionList.remove(session);
+    public void removeUser(WebSocketSession session){
+        sessionMemoryDB.remove(session);
     }
 
     // 단일 유저에게 현재 대기 인원 보내기
@@ -43,14 +42,14 @@ public class WebSocketSessionService {
 
     // 전체 유저에게 현재 대기 인원 보내기
     public void sendWaitersCount() {
-        for (WebSocketSession session : sessionList) {
+        for (WebSocketSession session : sessionMemoryDB.getSessions()) {
             sendWaitInfoMessage(session);
         }
     }
 
     private void sendWaitInfoMessage(WebSocketSession session){
         UserMapResponse refreshedResponse = UserMapResponse.builder()
-                .index(sessionList.indexOf(session))
+                .index(sessionMemoryDB.getSessions().indexOf(session))
                 .build();
 
         try {

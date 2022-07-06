@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StorageEventListener {
 
-    private final StorageManager storageManager;
+    private final StorageService storageService;
 
     @EventListener
     public void addImage(StorageInfo storageInfo){
-        storageManager.add(storageInfo.getUuid(), storageInfo.getByteArrayResource());
+        storageService.addInfo(storageInfo);
     }
 }

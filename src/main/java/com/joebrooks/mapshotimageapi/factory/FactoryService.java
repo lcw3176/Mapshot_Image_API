@@ -2,6 +2,7 @@ package com.joebrooks.mapshotimageapi.factory;
 
 
 import com.joebrooks.mapshotimageapi.driver.DriverService;
+import com.joebrooks.mapshotimageapi.event.EventPublisher;
 import com.joebrooks.mapshotimageapi.global.model.UserMapResponse;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.global.util.UriGenerator;
@@ -10,7 +11,6 @@ import com.joebrooks.mapshotimageapi.storage.StorageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -32,17 +32,20 @@ public class FactoryService {
     @Value("${map.image.dividedWidth}")
     private int dividedWidth;
 
-    private final FactoryManager factoryManager;
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final FactoryMemoryDB factoryMemoryDB = FactoryMemoryDB.getInstance();
+    private final EventPublisher eventPublisher;
     private final DriverService driverService;
     private final SlackClient slackClient;
 
+    public void addTask(FactoryTask factoryTask){
+        factoryMemoryDB.offer(factoryTask);
+    }
 
     @Scheduled(fixedDelay = 500)
     public void execute(){
 
-        if(!factoryManager.isEmpty()){
-            FactoryTask task = factoryManager.getTask();
+        if(!factoryMemoryDB.isEmpty()){
+            FactoryTask task = factoryMemoryDB.poll();
 
             try{
                 driverService.loadPage(UriGenerator.getUri(task.getUserMapRequest()));
@@ -58,12 +61,12 @@ public class FactoryService {
                         if(task.getSession().isOpen()){
                             String uuid = UUID.randomUUID().toString();
 
-                            applicationEventPublisher.publishEvent(StorageInfo.builder()
+                            eventPublisher.toStorage(StorageInfo.builder()
                                     .uuid(uuid)
                                     .byteArrayResource(byteArrayResource)
                                     .build());
 
-                            applicationEventPublisher.publishEvent(UserMapResponse.builder()
+                            eventPublisher.toSession(UserMapResponse.builder()
                                     .index(0)
                                     .x(x)
                                     .y(y)
@@ -79,7 +82,7 @@ public class FactoryService {
 
 
             } catch (Exception e){
-                applicationEventPublisher.publishEvent(UserMapResponse.builder()
+                eventPublisher.toSession(UserMapResponse.builder()
                         .index(0)
                         .error(true)
                         .build());

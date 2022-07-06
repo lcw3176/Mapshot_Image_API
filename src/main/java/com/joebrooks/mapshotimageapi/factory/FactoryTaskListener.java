@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FactoryTaskListener {
 
-    private final FactoryManager factoryManager;
+    private final FactoryService factoryService;
 
     @EventListener
     public void addTask(FactoryTask factoryTask){
-        factoryManager.addTask(factoryTask);
+        factoryService.addTask(factoryTask);
     }
 }
