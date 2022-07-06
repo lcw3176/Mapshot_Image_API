@@ -34,7 +34,7 @@ public class UserSocketHandler extends TextWebSocketHandler {
 
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) {
         UserMapRequest request;
 
         try{
