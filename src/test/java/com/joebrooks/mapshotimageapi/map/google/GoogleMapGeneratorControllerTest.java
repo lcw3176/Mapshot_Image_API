@@ -38,7 +38,7 @@ class GoogleMapGeneratorControllerTest {
         UserMapRequest userMapRequest = UserMapRequest.builder()
                 .lat(37.566968566622464)
                 .lng(127.05034726055617)
-                .companyType(CompanyType.GOOGLE)
+                .companyType(CompanyType.google)
                 .layerMode(false)
                 .level(2)
                 .type("basic")
