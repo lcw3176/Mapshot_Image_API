@@ -8,17 +8,17 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @Component
 public class FactoryManager {
 
-    private volatile Queue<FactoryTask> userMapRequestsQueue = new ConcurrentLinkedQueue<>();
+    private static final Queue<FactoryTask> userMapRequestsQueue = new ConcurrentLinkedQueue<>();
 
-    public boolean isEmpty(){
-        return this.userMapRequestsQueue.isEmpty();
+    public synchronized boolean isEmpty(){
+        return userMapRequestsQueue.isEmpty();
     }
 
-    public FactoryTask getTask(){
-        return this.userMapRequestsQueue.poll();
+    public synchronized FactoryTask getTask(){
+        return userMapRequestsQueue.poll();
     }
 
-    public void addTask(FactoryTask factoryTask){
-        this.userMapRequestsQueue.offer(factoryTask);
+    public synchronized void addTask(FactoryTask factoryTask){
+        userMapRequestsQueue.offer(factoryTask);
     }
 }

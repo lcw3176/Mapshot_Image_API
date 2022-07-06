@@ -18,7 +18,7 @@ uuid를 통해 이미지를 저장, 발급해줍니다.
 @Slf4j
 public class StorageManager {
 
-    private final static Map<String, ByteArrayResource> imageMap = new HashMap<>();
+    private static final Map<String, ByteArrayResource> imageMap = new HashMap<>();
 
     public void add(String uuid, ByteArrayResource imageResource){
         imageMap.put(uuid, imageResource);
