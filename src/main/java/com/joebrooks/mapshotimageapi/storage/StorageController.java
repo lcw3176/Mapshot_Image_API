@@ -14,16 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/map/storage")
 public class StorageController {
 
-    private final StorageManager storageManager;
+    private final StorageService storageService;
 
     @GetMapping("/{uuid}")
     public ResponseEntity<ByteArrayResource> findCompletedImage(@PathVariable String uuid){
-        ByteArrayResource arrayResource = storageManager.popImage(uuid)
-                .orElse(new ByteArrayResource(new byte[0]));
+        ByteArrayResource imageArrayResource = storageService.getImage(uuid);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
-                .contentLength(arrayResource.contentLength())
-                .body(arrayResource);
+                .contentLength(imageArrayResource.contentLength())
+                .body(imageArrayResource);
     }
 }

@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.factory;
+package com.joebrooks.mapshotimageapi.map;
 
 public interface IMapRadius {
 

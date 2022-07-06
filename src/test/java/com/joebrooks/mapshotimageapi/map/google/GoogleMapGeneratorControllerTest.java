@@ -1,8 +1,8 @@
-package com.joebrooks.mapshotimageapi.factory.google;
+package com.joebrooks.mapshotimageapi.map.google;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joebrooks.mapshotimageapi.factory.CompanyType;
+import com.joebrooks.mapshotimageapi.map.CompanyType;
 import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ class GoogleMapGeneratorControllerTest {
         UserMapRequest userMapRequest = UserMapRequest.builder()
                 .lat(37.566968566622464)
                 .lng(127.05034726055617)
-                .companyType(CompanyType.google)
+                .companyType(CompanyType.GOOGLE)
                 .layerMode(false)
                 .level(2)
                 .type("basic")

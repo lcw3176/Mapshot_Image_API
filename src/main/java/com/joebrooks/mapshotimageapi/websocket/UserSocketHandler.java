@@ -2,20 +2,17 @@ package com.joebrooks.mapshotimageapi.websocket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joebrooks.mapshotimageapi.event.EventPublisher;
 import com.joebrooks.mapshotimageapi.factory.FactoryTask;
-import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
-import com.joebrooks.mapshotimageapi.factory.FactoryService;
+import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-
-import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
@@ -23,7 +20,7 @@ import java.io.IOException;
 public class UserSocketHandler extends TextWebSocketHandler {
 
     private final WebSocketSessionService webSocketSessionService;
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final EventPublisher eventPublisher;
     private final SlackClient slackClient;
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -49,7 +46,7 @@ public class UserSocketHandler extends TextWebSocketHandler {
         // 현재 유저가 몇 번째 대기유저인지 보내준 후, 작업 시작
         webSocketSessionService.sendWaitersCount(session);
 
-        applicationEventPublisher.publishEvent(FactoryTask.builder()
+        eventPublisher.toFactory(FactoryTask.builder()
                 .userMapRequest(request)
                 .session(session)
                 .build());
