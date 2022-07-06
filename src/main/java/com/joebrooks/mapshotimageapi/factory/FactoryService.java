@@ -12,9 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.UUID;
 
 /*
@@ -38,74 +38,55 @@ public class FactoryService {
     private final SlackClient slackClient;
 
 
-    @PostConstruct
-    private void init(){
-        Thread thread = new Thread(() -> {
+    @Scheduled(fixedDelay = 500)
+    public void execute(){
 
-            while(true){
-                while(!factoryManager.isEmpty()){
-                    FactoryTask task = factoryManager.getTask();
-                    boolean isRun = true;
+        if(!factoryManager.isEmpty()){
+            FactoryTask task = factoryManager.getTask();
 
-                    try{
-                        driverService.loadPage(UriGenerator.getUri(task.getUserMapRequest()));
-                        int width = WidthExtractor.extract(task.getUserMapRequest());
+            try{
+                driverService.loadPage(UriGenerator.getUri(task.getUserMapRequest()));
+                int width = WidthExtractor.extract(task.getUserMapRequest());
 
-                        for(int y = 0; y < width; y+= dividedWidth){
-                            for(int x = 0; x < width; x+= dividedWidth){
+                for(int y = 0; y < width; y+= dividedWidth){
+                    for(int x = 0; x < width; x+= dividedWidth){
 
-                                driverService.scrollPage(x, y);
-                                ByteArrayResource byteArrayResource = driverService.capturePage();
+                        driverService.scrollPage(x, y);
+                        ByteArrayResource byteArrayResource = driverService.capturePage();
 
-                                // 세션이 열려있다면 이미지 uuid 전송, 닫혔다면 작업 정지
-                                if(task.getSession().isOpen()){
-                                    String uuid = UUID.randomUUID().toString();
+                        // 세션이 열려있다면 이미지 uuid 전송, 닫혔다면 작업 정지
+                        if(task.getSession().isOpen()){
+                            String uuid = UUID.randomUUID().toString();
 
-                                    applicationEventPublisher.publishEvent(StorageInfo.builder()
-                                            .uuid(uuid)
-                                            .byteArrayResource(byteArrayResource)
-                                            .build());
+                            applicationEventPublisher.publishEvent(StorageInfo.builder()
+                                    .uuid(uuid)
+                                    .byteArrayResource(byteArrayResource)
+                                    .build());
 
-                                    applicationEventPublisher.publishEvent(UserMapResponse.builder()
-                                            .index(0)
-                                            .x(x)
-                                            .y(y)
-                                            .uuid(uuid)
-                                            .session(task.getSession())
-                                            .build());
+                            applicationEventPublisher.publishEvent(UserMapResponse.builder()
+                                    .index(0)
+                                    .x(x)
+                                    .y(y)
+                                    .uuid(uuid)
+                                    .session(task.getSession())
+                                    .build());
 
-                                } else {
-                                    isRun = false;
-                                    break;
-                                }
-                            }
-
-                            if(!isRun){
-                                break;
-                            }
+                        } else {
+                            return;
                         }
-
-
-                    } catch (Exception e){
-                        applicationEventPublisher.publishEvent(UserMapResponse.builder()
-                                .index(0)
-                                .error(true)
-                                .build());
-
-                        log.error(e.getMessage(), e);
-                        slackClient.sendMessage(e);
                     }
                 }
 
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+            } catch (Exception e){
+                applicationEventPublisher.publishEvent(UserMapResponse.builder()
+                        .index(0)
+                        .error(true)
+                        .build());
+
+                log.error(e.getMessage(), e);
+                slackClient.sendMessage(e);
             }
-
-        });
-
-        thread.start();
+        }
     }
 }
