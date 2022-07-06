@@ -1,8 +1,8 @@
-package com.joebrooks.mapshotimageapi.factory.kakao;
+package com.joebrooks.mapshotimageapi.map.google;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joebrooks.mapshotimageapi.factory.CompanyType;
+import com.joebrooks.mapshotimageapi.map.CompanyType;
 import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.util.MultiValueMap;
 
 import java.util.Map;
 
-
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
@@ -23,12 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-class KakaoMapGeneratorControllerTest {
+class GoogleMapGeneratorControllerTest {
 
 
     @Autowired
@@ -37,11 +34,11 @@ class KakaoMapGeneratorControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void 카카오_지도_가져오기() throws Exception {
+    void 구글_지도_가져오기() throws Exception {
         UserMapRequest userMapRequest = UserMapRequest.builder()
                 .lat(37.566968566622464)
                 .lng(127.05034726055617)
-                .companyType(CompanyType.kakao)
+                .companyType(CompanyType.google)
                 .layerMode(false)
                 .level(2)
                 .type("basic")
@@ -52,19 +49,19 @@ class KakaoMapGeneratorControllerTest {
         Map<String, String> fieldMap = objectMapper.convertValue(userMapRequest, new TypeReference<Map<String, String>>() {});
         valueMap.setAll(fieldMap);
 
-        mockMvc.perform(get("/map/gen/kakao")
+        mockMvc.perform(get("/map/gen/google")
                         .queryParams(valueMap))
                 .andExpect(status().isOk())
-                .andDo(document("get-kakao-map",
-                        requestParameters(
-                                parameterWithName("lat").description("위도"),
-                                parameterWithName("lng").description("경도"),
-                                parameterWithName("companyType").description("지도를 받아올 회사"),
-                                parameterWithName("layerMode").description("도시 계획 레이어 적용 여부"),
-                                parameterWithName("level").description("지도 확대 레벨"),
-                                parameterWithName("type").description("지도 타입")
+                .andDo(document("get-google-map",
+                                requestParameters(
+                                        parameterWithName("lat").description("위도"),
+                                        parameterWithName("lng").description("경도"),
+                                        parameterWithName("companyType").description("지도를 받아올 회사"),
+                                        parameterWithName("layerMode").description("도시 계획 레이어 적용 여부"),
+                                        parameterWithName("level").description("지도 확대 레벨"),
+                                        parameterWithName("type").description("지도 타입")
+                                )
                         )
-                    )
                 );
     }
 

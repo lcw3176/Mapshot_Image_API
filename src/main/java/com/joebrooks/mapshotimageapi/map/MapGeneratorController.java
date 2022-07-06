@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.factory.kakao;
+package com.joebrooks.mapshotimageapi.map;
 
 import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
 import org.springframework.stereotype.Controller;
@@ -8,13 +8,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/map/gen/kakao")
-public class KakaoMapGeneratorController {
+@RequestMapping("/map/gen")
+public class MapGeneratorController {
 
-    @GetMapping
+    @GetMapping("/kakao")
     public String getKakaoMap(@ModelAttribute UserMapRequest mapRequest, Model model){
         model.addAttribute("mapRequest", mapRequest);
 
         return "map/kakao";
     }
+
+    @GetMapping("/google")
+    public String getGoogleMap(@ModelAttribute UserMapRequest mapRequest, Model model){
+        model.addAttribute("mapRequest", mapRequest);
+
+        return "map/google";
+    }
+
 }
