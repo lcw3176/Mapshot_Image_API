@@ -41,7 +41,7 @@ class KakaoMapGeneratorControllerTest {
         UserMapRequest userMapRequest = UserMapRequest.builder()
                 .lat(37.566968566622464)
                 .lng(127.05034726055617)
-                .companyType(CompanyType.kakao)
+                .companyType(CompanyType.KAKAO)
                 .layerMode(false)
                 .level(2)
                 .type("basic")

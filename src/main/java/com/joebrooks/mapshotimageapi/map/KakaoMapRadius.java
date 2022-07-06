@@ -1,6 +1,4 @@
-package com.joebrooks.mapshotimageapi.factory.kakao;
-
-import com.joebrooks.mapshotimageapi.factory.IMapRadius;
+package com.joebrooks.mapshotimageapi.map;
 
 public enum KakaoMapRadius implements IMapRadius {
     ONE(1, 5000),
