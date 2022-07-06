@@ -22,15 +22,17 @@ import java.util.LinkedList;
 @Slf4j
 public class WebSocketSessionService {
 
-    private final LinkedList<WebSocketSession> sessionList = new LinkedList<>();
+    private static final LinkedList<WebSocketSession> sessionList = new LinkedList<>();
     private final ObjectMapper mapper = new ObjectMapper();
     private final SlackClient slackClient;
 
-    public void addUser(WebSocketSession session){
-        sessionList.add(session);
+    public synchronized void addUser(WebSocketSession session){
+        if(!sessionList.contains(session)){
+            sessionList.add(session);
+        }
     }
 
-    public void removeUser(WebSocketSession session){
+    public synchronized void removeUser(WebSocketSession session){
         sessionList.remove(session);
     }
 
