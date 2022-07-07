@@ -31,7 +31,7 @@ public class UserSocketHandler extends TextWebSocketHandler {
 
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) {
+    public void handleTextMessage(WebSocketSession session, TextMessage message) {
         UserMapRequest request;
 
         try{
@@ -50,6 +50,13 @@ public class UserSocketHandler extends TextWebSocketHandler {
                 .userMapRequest(request)
                 .session(session)
                 .build());
+    }
+
+    @Override
+    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+        super.handleTransportError(session, exception);
+        webSocketSessionService.removeUser(session);
+        webSocketSessionService.sendWaitersCount();
     }
 
     @Override

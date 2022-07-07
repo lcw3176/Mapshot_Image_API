@@ -23,6 +23,10 @@ public class StorageMemoryDB {
         imageMap.put(uuid, imageResource);
     }
 
+    public void clear(){
+        imageMap.clear();
+    }
+
     public Optional<ByteArrayResource> pop(String uuid){
         Optional<ByteArrayResource> data = Optional.ofNullable(imageMap.get(uuid));
         Optional.ofNullable(imageMap.get(uuid)).ifPresent(imageMap::remove);
