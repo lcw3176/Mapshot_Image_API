@@ -41,7 +41,7 @@ public class FactoryService {
         factoryMemoryDB.offer(factoryTask);
     }
 
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedDelay = 1000)
     public void execute(){
 
         if(!factoryMemoryDB.isEmpty()){
