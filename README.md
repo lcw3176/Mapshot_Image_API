@@ -19,15 +19,17 @@
 
 ## 기술 스택
 - Java 11, Spring Boot
-- WebSocket, Async
+- WebSocket
 - ChromeDriver, Selenium
 - Slack API, WhaTap
 - GitHub Action
-- Nginx
 
-## 서비스 구조도
+## 전체 이미지 서비스 구조도
 ![구조도](https://user-images.githubusercontent.com/59993347/176987753-a7427c28-fccb-4006-905b-a2e77adc3255.png)
 
+## Mapshot Image API 서비스 상세 구조도
+![요청](https://user-images.githubusercontent.com/59993347/177678649-5d7cce8c-43db-4adf-9da7-61f2c7780e54.jpg)
+![반환](https://user-images.githubusercontent.com/59993347/177678652-4dc5ed4a-737d-4f03-9036-830b3a7bc835.jpg)
 
 ## 관련 프로젝트
 - 메인 프로젝트 서버: [Mapshot_Service](https://github.com/lcw3176/Mapshot_Service)
