@@ -8,6 +8,7 @@ import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.global.util.UriGenerator;
 import com.joebrooks.mapshotimageapi.global.util.WidthExtractor;
 import com.joebrooks.mapshotimageapi.storage.StorageInfo;
+import com.joebrooks.mapshotimageapi.websocket.WebsocketInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,15 +65,22 @@ public class FactoryService {
                             eventPublisher.toStorage(StorageInfo.builder()
                                     .uuid(uuid)
                                     .byteArrayResource(byteArrayResource)
+                                    .command(StorageInfo.COMMAND.PUT)
                                     .build());
 
-                            eventPublisher.toSession(UserMapResponse.builder()
-                                    .index(0)
-                                    .x(x)
-                                    .y(y)
-                                    .uuid(uuid)
-                                    .session(task.getSession())
-                                    .build());
+                            eventPublisher.toWebsocket(
+                                    WebsocketInfo.builder()
+                                            .userMapResponse(
+                                                    UserMapResponse.builder()
+                                                    .index(0)
+                                                    .x(x)
+                                                    .y(y)
+                                                    .uuid(uuid)
+                                                    .build())
+                                            .session(task.getSession())
+                                            .build()
+                            );
+
 
                         } else {
                             return;
@@ -82,11 +90,23 @@ public class FactoryService {
 
 
             } catch (Exception e){
-                eventPublisher.toSession(UserMapResponse.builder()
-                        .index(0)
-                        .error(true)
-                        .session(task.getSession())
+
+                eventPublisher.toStorage(StorageInfo.builder()
+                        .command(StorageInfo.COMMAND.CLEAR)
                         .build());
+
+                eventPublisher.toWebsocket(
+                        WebsocketInfo.builder()
+                                .userMapResponse(
+                                        UserMapResponse.builder()
+                                                .index(0)
+                                                .error(true)
+                                                .build())
+                                .session(task.getSession())
+                                .build()
+                );
+
+
 
                 log.error(e.getMessage(), e);
                 slackClient.sendMessage(e);
