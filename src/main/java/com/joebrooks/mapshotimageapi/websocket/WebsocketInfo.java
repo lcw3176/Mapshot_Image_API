@@ -15,4 +15,10 @@ public class WebsocketInfo {
 
     private UserMapResponse userMapResponse;
     private WebSocketSession session;
+    private COMMAND command;
+
+    public enum COMMAND{
+        SEND,
+        CLOSE
+    }
 }

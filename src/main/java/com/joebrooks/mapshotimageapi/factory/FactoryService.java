@@ -78,6 +78,7 @@ public class FactoryService {
                                                     .uuid(uuid)
                                                     .build())
                                             .session(task.getSession())
+                                            .command(WebsocketInfo.COMMAND.SEND)
                                             .build()
                             );
 
@@ -103,6 +104,7 @@ public class FactoryService {
                                                 .error(true)
                                                 .build())
                                 .session(task.getSession())
+                                .command(WebsocketInfo.COMMAND.CLOSE)
                                 .build()
                 );
 

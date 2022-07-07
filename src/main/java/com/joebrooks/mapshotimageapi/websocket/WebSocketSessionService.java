@@ -35,6 +35,12 @@ public class WebSocketSessionService {
         sessionMemoryDB.remove(session);
     }
 
+    // 이미지 정보 보내주기
+    public void sendMessage(WebsocketInfo websocketInfo) throws IOException {
+        websocketInfo.getSession().sendMessage(new TextMessage(
+                mapper.writeValueAsString(websocketInfo.getUserMapResponse())));
+    }
+
     // 단일 유저에게 현재 대기 인원 보내기
     public void sendWaitersCount(WebSocketSession session) {
         sendWaitInfoMessage(session);
