@@ -90,11 +90,6 @@ public class FactoryService {
                             
                             eventPublisher.toWebsocket(
                                     WebsocketInfo.builder()
-                                            .userMapResponse(
-                                                    UserMapResponse.builder()
-                                                            .index(0)
-                                                            .error(true)
-                                                            .build())
                                             .session(task.getSession())
                                             .command(WebsocketInfo.COMMAND.CLOSE)
                                             .build()
@@ -106,28 +101,24 @@ public class FactoryService {
                 }
 
 
+
             } catch (Exception e){
 
                 eventPublisher.toStorage(StorageInfo.builder()
                         .command(StorageInfo.COMMAND.CLEAR)
                         .build());
 
+
+                log.error(e.getMessage(), e);
+                slackClient.sendMessage(e);
+
+            } finally {
                 eventPublisher.toWebsocket(
                         WebsocketInfo.builder()
-                                .userMapResponse(
-                                        UserMapResponse.builder()
-                                                .index(0)
-                                                .error(true)
-                                                .build())
                                 .session(task.getSession())
                                 .command(WebsocketInfo.COMMAND.CLOSE)
                                 .build()
                 );
-
-
-
-                log.error(e.getMessage(), e);
-                slackClient.sendMessage(e);
             }
         }
     }
