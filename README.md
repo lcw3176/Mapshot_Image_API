@@ -19,11 +19,10 @@
 
 ## 기술 스택
 - Java 11, Spring Boot
-- WebSocket, Async
+- WebSocket
 - ChromeDriver, Selenium
 - Slack API, WhaTap
 - GitHub Action
-- Nginx
 
 ## 서비스 구조도
 ![구조도](https://user-images.githubusercontent.com/59993347/176987753-a7427c28-fccb-4006-905b-a2e77adc3255.png)
