@@ -84,6 +84,22 @@ public class FactoryService {
 
 
                         } else {
+                            eventPublisher.toStorage(StorageInfo.builder()
+                                    .command(StorageInfo.COMMAND.CLEAR)
+                                    .build());
+                            
+                            eventPublisher.toWebsocket(
+                                    WebsocketInfo.builder()
+                                            .userMapResponse(
+                                                    UserMapResponse.builder()
+                                                            .index(0)
+                                                            .error(true)
+                                                            .build())
+                                            .session(task.getSession())
+                                            .command(WebsocketInfo.COMMAND.CLOSE)
+                                            .build()
+                            );
+
                             return;
                         }
                     }
