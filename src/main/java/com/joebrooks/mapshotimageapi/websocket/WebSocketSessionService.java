@@ -54,6 +54,12 @@ public class WebSocketSessionService {
     }
 
     private void sendWaitInfoMessage(WebSocketSession session){
+
+        if(!session.isOpen()){
+            removeUser(session);
+            return;
+        }
+
         UserMapResponse refreshedResponse = UserMapResponse.builder()
                 .index(sessionMemoryDB.getSessions().indexOf(session))
                 .build();
