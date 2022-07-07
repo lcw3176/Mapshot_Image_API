@@ -16,6 +16,10 @@ public class StorageService {
         storageMemoryDB.add(storageInfo.getUuid(), storageInfo.getByteArrayResource());
     }
 
+    public void clearInfo(){
+        storageMemoryDB.clear();
+    }
+
     public ByteArrayResource getImage(String uuid){
         return storageMemoryDB.pop(uuid)
                 .orElse(new ByteArrayResource(new byte[0]));

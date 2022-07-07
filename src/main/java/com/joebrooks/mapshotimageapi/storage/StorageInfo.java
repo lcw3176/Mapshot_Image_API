@@ -14,4 +14,13 @@ public class StorageInfo {
 
     private String uuid;
     private ByteArrayResource byteArrayResource;
+    private COMMAND command;
+
+    public enum COMMAND {
+        PUT,
+        CLEAR
+    }
+
+
 }
+

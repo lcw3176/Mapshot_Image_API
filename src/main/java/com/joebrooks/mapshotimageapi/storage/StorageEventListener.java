@@ -12,6 +12,20 @@ public class StorageEventListener {
 
     @EventListener
     public void addImage(StorageInfo storageInfo){
-        storageService.addInfo(storageInfo);
+
+        switch (storageInfo.getCommand()){
+            case PUT:
+                storageService.addInfo(storageInfo);
+                break;
+
+            case CLEAR:
+                storageService.clearInfo();
+                break;
+
+            default:
+                break;
+
+        }
+
     }
 }
