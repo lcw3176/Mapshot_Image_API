@@ -85,6 +85,7 @@ public class FactoryService {
                 eventPublisher.toSession(UserMapResponse.builder()
                         .index(0)
                         .error(true)
+                        .session(task.getSession())
                         .build());
 
                 log.error(e.getMessage(), e);
