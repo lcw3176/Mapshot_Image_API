@@ -102,6 +102,18 @@ public class FactoryService {
                         .build());
 
 
+                eventPublisher.publishEvent(
+                        WebsocketInfo.builder()
+                                .userMapResponse(
+                                        UserMapResponse.builder()
+                                                .index(0)
+                                                .error(true)
+                                                .build())
+                                .session(task.getSession())
+                                .command(WebsocketInfo.COMMAND.SEND)
+                                .build()
+                );
+
                 log.error(e.getMessage(), e);
                 slackClient.sendMessage(e);
 
