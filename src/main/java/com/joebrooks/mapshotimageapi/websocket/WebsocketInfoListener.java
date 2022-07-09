@@ -18,12 +18,11 @@ public class WebsocketInfoListener {
 
         switch (websocketInfo.getCommand()){
             case SEND:
-                sessionService.sendMessage(websocketInfo);
+                sessionService.sendData(websocketInfo);
                 break;
 
             case CLOSE:
-                sessionService.removeUser(websocketInfo.getSession());
-                sessionService.sendWaitersCount();
+                sessionService.onClose(websocketInfo.getSession());
                 break;
 
             default:
