@@ -2,9 +2,9 @@ package com.joebrooks.mapshotimageapi.storage;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class StorageEventListener {
 
