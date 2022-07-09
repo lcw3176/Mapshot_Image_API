@@ -2,12 +2,9 @@ package com.joebrooks.mapshotimageapi.global.model;
 
 
 import com.joebrooks.mapshotimageapi.map.CompanyType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

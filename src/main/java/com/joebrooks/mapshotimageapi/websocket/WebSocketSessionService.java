@@ -31,15 +31,21 @@ public class WebSocketSessionService {
         }
     }
 
-    public void removeUser(WebSocketSession session){
+    private void removeUser(WebSocketSession session){
         sessionMemoryDB.remove(session);
     }
 
     // 이미지 정보 보내주기
-    public void sendMessage(WebsocketInfo websocketInfo) throws IOException {
+    public void sendData(WebsocketInfo websocketInfo) throws IOException {
         websocketInfo.getSession().sendMessage(new TextMessage(
                 mapper.writeValueAsString(websocketInfo.getUserMapResponse())));
     }
+
+    public void onClose(WebSocketSession session){
+        removeUser(session);
+        sendWaitersCount();
+    }
+
 
     // 단일 유저에게 현재 대기 인원 보내기
     public void sendWaitersCount(WebSocketSession session) {
@@ -47,7 +53,7 @@ public class WebSocketSessionService {
     }
 
     // 전체 유저에게 현재 대기 인원 보내기
-    public void sendWaitersCount() {
+    private void sendWaitersCount() {
         for (WebSocketSession session : sessionMemoryDB.getSessions()) {
             sendWaitInfoMessage(session);
         }

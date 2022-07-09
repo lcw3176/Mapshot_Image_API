@@ -2,7 +2,6 @@ package com.joebrooks.mapshotimageapi.factory;
 
 
 import com.joebrooks.mapshotimageapi.driver.DriverService;
-import com.joebrooks.mapshotimageapi.event.EventPublisher;
 import com.joebrooks.mapshotimageapi.global.model.UserMapResponse;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.global.util.UriGenerator;
@@ -12,6 +11,7 @@ import com.joebrooks.mapshotimageapi.websocket.WebsocketInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class FactoryService {
     private int dividedWidth;
 
     private final FactoryMemoryDB factoryMemoryDB = FactoryMemoryDB.getInstance();
-    private final EventPublisher eventPublisher;
+    private final ApplicationEventPublisher eventPublisher;
     private final DriverService driverService;
     private final SlackClient slackClient;
 
@@ -62,21 +62,21 @@ public class FactoryService {
                         if(task.getSession().isOpen()){
                             String uuid = UUID.randomUUID().toString();
 
-                            eventPublisher.toStorage(StorageInfo.builder()
+                            eventPublisher.publishEvent(StorageInfo.builder()
                                     .uuid(uuid)
                                     .byteArrayResource(byteArrayResource)
                                     .command(StorageInfo.COMMAND.PUT)
                                     .build());
 
-                            eventPublisher.toWebsocket(
+                            eventPublisher.publishEvent(
                                     WebsocketInfo.builder()
                                             .userMapResponse(
                                                     UserMapResponse.builder()
-                                                    .index(0)
-                                                    .x(x)
-                                                    .y(y)
-                                                    .uuid(uuid)
-                                                    .build())
+                                                            .index(0)
+                                                            .x(x)
+                                                            .y(y)
+                                                            .uuid(uuid)
+                                                            .build())
                                             .session(task.getSession())
                                             .command(WebsocketInfo.COMMAND.SEND)
                                             .build()
@@ -84,16 +84,9 @@ public class FactoryService {
 
 
                         } else {
-                            eventPublisher.toStorage(StorageInfo.builder()
+                            eventPublisher.publishEvent(StorageInfo.builder()
                                     .command(StorageInfo.COMMAND.CLEAR)
                                     .build());
-                            
-                            eventPublisher.toWebsocket(
-                                    WebsocketInfo.builder()
-                                            .session(task.getSession())
-                                            .command(WebsocketInfo.COMMAND.CLOSE)
-                                            .build()
-                            );
 
                             return;
                         }
@@ -104,7 +97,7 @@ public class FactoryService {
 
             } catch (Exception e){
 
-                eventPublisher.toStorage(StorageInfo.builder()
+                eventPublisher.publishEvent(StorageInfo.builder()
                         .command(StorageInfo.COMMAND.CLEAR)
                         .build());
 
@@ -113,7 +106,9 @@ public class FactoryService {
                 slackClient.sendMessage(e);
 
             } finally {
-                eventPublisher.toWebsocket(
+                // close 요청을 못보내고 연결이 끊길 경우를 대비해서
+                // 세션은 항상 DB 목록에서 지운다
+                eventPublisher.publishEvent(
                         WebsocketInfo.builder()
                                 .session(task.getSession())
                                 .command(WebsocketInfo.COMMAND.CLOSE)

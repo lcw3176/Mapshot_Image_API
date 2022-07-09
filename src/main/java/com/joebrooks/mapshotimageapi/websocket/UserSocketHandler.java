@@ -2,12 +2,12 @@ package com.joebrooks.mapshotimageapi.websocket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joebrooks.mapshotimageapi.event.EventPublisher;
 import com.joebrooks.mapshotimageapi.factory.FactoryTask;
 import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -20,7 +20,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class UserSocketHandler extends TextWebSocketHandler {
 
     private final WebSocketSessionService webSocketSessionService;
-    private final EventPublisher eventPublisher;
+    private final ApplicationEventPublisher eventPublisher;
     private final SlackClient slackClient;
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -39,14 +39,14 @@ public class UserSocketHandler extends TextWebSocketHandler {
         } catch (JsonProcessingException e){
             log.error("유효하지 않은 지도 포맷", e);
             slackClient.sendMessage(e);
-            webSocketSessionService.removeUser(session);
+            webSocketSessionService.onClose(session);
             return;
         }
 
         // 현재 유저가 몇 번째 대기유저인지 보내준 후, 작업 시작
         webSocketSessionService.sendWaitersCount(session);
 
-        eventPublisher.toFactory(FactoryTask.builder()
+        eventPublisher.publishEvent(FactoryTask.builder()
                 .userMapRequest(request)
                 .session(session)
                 .build());
@@ -55,15 +55,14 @@ public class UserSocketHandler extends TextWebSocketHandler {
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
         super.handleTransportError(session, exception);
-        webSocketSessionService.removeUser(session);
-        webSocketSessionService.sendWaitersCount();
+        webSocketSessionService.onClose(session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
-        webSocketSessionService.removeUser(session);
-        webSocketSessionService.sendWaitersCount();
+        webSocketSessionService.onClose(session);
     }
+
 
 }
