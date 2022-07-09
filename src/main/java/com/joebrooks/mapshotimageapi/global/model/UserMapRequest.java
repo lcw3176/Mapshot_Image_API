@@ -5,6 +5,7 @@ import com.joebrooks.mapshotimageapi.map.CompanyType;
 import lombok.*;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
