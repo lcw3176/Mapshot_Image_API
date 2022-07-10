@@ -1,36 +1,37 @@
 package com.joebrooks.mapshotimageapi.storage;
 
+import com.joebrooks.mapshotimageapi.global.memorydb.IMemoryDB;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class StorageMemoryDB {
+@Component
+public class StorageMemoryDB implements IMemoryDB<StorageInfo> {
 
-    private static final Map<String, ByteArrayResource> imageMap = new ConcurrentHashMap<>();
-    private static final StorageMemoryDB instance = new StorageMemoryDB();
+    private final Map<String, ByteArrayResource> imageMap = new ConcurrentHashMap<>();
 
-    private StorageMemoryDB(){
-
+    @Override
+    public void add(StorageInfo value) {
+        imageMap.put(value.getUuid(), value.getByteArrayResource());
     }
 
-    public static StorageMemoryDB getInstance(){
-        return instance;
+    @Override
+    public StorageInfo pop(Object key) {
+
+        StorageInfo storageInfo = StorageInfo.builder()
+                .byteArrayResource(imageMap.get(key.toString()))
+                .build();
+
+        imageMap.remove(key.toString());
+
+        return storageInfo;
     }
 
-    public void add(String uuid, ByteArrayResource imageResource){
-        imageMap.put(uuid, imageResource);
-    }
-
+    @Override
     public void clear(){
         imageMap.clear();
     }
 
-    public Optional<ByteArrayResource> pop(String uuid){
-        Optional<ByteArrayResource> data = Optional.ofNullable(imageMap.get(uuid));
-        Optional.ofNullable(imageMap.get(uuid)).ifPresent(imageMap::remove);
-
-        return data;
-    }
 }

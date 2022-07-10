@@ -1,6 +1,7 @@
 package com.joebrooks.mapshotimageapi.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joebrooks.mapshotimageapi.global.memorydb.IMemoryDB;
 import com.joebrooks.mapshotimageapi.global.model.UserMapResponse;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class WebSocketSessionService {
 
     private final SlackClient slackClient;
     private final ObjectMapper mapper = new ObjectMapper();
-    private final SessionMemoryDB sessionMemoryDB = SessionMemoryDB.getInstance();
+    private final IMemoryDB<WebSocketSession> sessionMemoryDB;
 
     public void addUser(WebSocketSession session){
         if(!sessionMemoryDB.contains(session)){
@@ -54,7 +55,7 @@ public class WebSocketSessionService {
 
     // 전체 유저에게 현재 대기 인원 보내기
     private void sendWaitersCount() {
-        for (WebSocketSession session : sessionMemoryDB.getSessions()) {
+        for (WebSocketSession session : sessionMemoryDB.getAll()) {
             sendWaitInfoMessage(session);
         }
     }
@@ -67,7 +68,7 @@ public class WebSocketSessionService {
         }
 
         UserMapResponse refreshedResponse = UserMapResponse.builder()
-                .index(sessionMemoryDB.getSessions().indexOf(session))
+                .index(sessionMemoryDB.getAll().indexOf(session))
                 .build();
 
         try {

@@ -2,6 +2,7 @@ package com.joebrooks.mapshotimageapi.factory;
 
 
 import com.joebrooks.mapshotimageapi.driver.DriverService;
+import com.joebrooks.mapshotimageapi.global.memorydb.IMemoryDB;
 import com.joebrooks.mapshotimageapi.global.model.UserMapResponse;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.global.util.UriGenerator;
@@ -33,20 +34,20 @@ public class FactoryService {
     @Value("${map.image.dividedWidth}")
     private int dividedWidth;
 
-    private final FactoryMemoryDB factoryMemoryDB = FactoryMemoryDB.getInstance();
+    private final IMemoryDB<FactoryTask> factoryMemoryDB;
     private final ApplicationEventPublisher eventPublisher;
     private final DriverService driverService;
     private final SlackClient slackClient;
 
     public void addTask(FactoryTask factoryTask){
-        factoryMemoryDB.offer(factoryTask);
+        factoryMemoryDB.add(factoryTask);
     }
 
     @Scheduled(fixedDelay = 1000)
     public void execute(){
 
         if(!factoryMemoryDB.isEmpty()){
-            FactoryTask task = factoryMemoryDB.poll();
+            FactoryTask task = factoryMemoryDB.pop();
 
             try{
                 driverService.loadPage(UriGenerator.getUri(task.getUserMapRequest()));
