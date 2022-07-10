@@ -1,31 +1,33 @@
 package com.joebrooks.mapshotimageapi.factory;
 
+import com.joebrooks.mapshotimageapi.global.memorydb.IMemoryDB;
+import org.springframework.stereotype.Component;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FactoryMemoryDB {
+@Component
+public class FactoryMemoryDB implements IMemoryDB<FactoryTask> {
 
-    private static final Queue<FactoryTask> userMapRequestsQueue = new LinkedList<>();
-    private static final FactoryMemoryDB instance = new FactoryMemoryDB();
+    private final Queue<FactoryTask> factoryTaskQueue = new LinkedList<>();
 
-    private FactoryMemoryDB(){
 
+    @Override
+    public synchronized boolean isEmpty() {
+        return factoryTaskQueue.isEmpty();
     }
 
-    public static FactoryMemoryDB getInstance(){
-        return instance;
+
+    @Override
+    public synchronized FactoryTask pop() {
+        return factoryTaskQueue.poll();
     }
 
-    public synchronized boolean isEmpty(){
-        return userMapRequestsQueue.isEmpty();
+
+    @Override
+    public synchronized void add(FactoryTask value) {
+        factoryTaskQueue.add(value);
     }
 
-    public synchronized FactoryTask poll(){
-        return userMapRequestsQueue.poll();
-    }
-
-    public synchronized void offer(FactoryTask factoryTask){
-        userMapRequestsQueue.offer(factoryTask);
-    }
 
 }
