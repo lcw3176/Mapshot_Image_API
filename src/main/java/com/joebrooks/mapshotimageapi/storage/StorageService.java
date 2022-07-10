@@ -1,5 +1,7 @@
 package com.joebrooks.mapshotimageapi.storage;
 
+import com.joebrooks.mapshotimageapi.global.memorydb.IMemoryDB;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 
@@ -8,12 +10,13 @@ import org.springframework.stereotype.Service;
 uuid를 통해 이미지를 저장, 발급해줍니다.
 */
 @Service
+@RequiredArgsConstructor
 public class StorageService {
 
-    private final StorageMemoryDB storageMemoryDB = StorageMemoryDB.getInstance();
+    private final IMemoryDB<StorageInfo> storageMemoryDB;
 
     public void addInfo(StorageInfo storageInfo){
-        storageMemoryDB.add(storageInfo.getUuid(), storageInfo.getByteArrayResource());
+        storageMemoryDB.add(storageInfo);
     }
 
     public void clearInfo(){
@@ -21,7 +24,6 @@ public class StorageService {
     }
 
     public ByteArrayResource getImage(String uuid){
-        return storageMemoryDB.pop(uuid)
-                .orElse(new ByteArrayResource(new byte[0]));
+        return storageMemoryDB.pop(uuid).getByteArrayResource();
     }
 }
