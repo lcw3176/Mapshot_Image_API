@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.global.model;
+package com.joebrooks.mapshotimageapi.websocket;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
