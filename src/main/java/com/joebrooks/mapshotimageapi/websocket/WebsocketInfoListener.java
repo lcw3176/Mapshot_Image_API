@@ -10,19 +10,19 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class WebsocketInfoListener {
 
-    private final WebSocketSessionService sessionService;
+    private final SessionHandler sessionHandler;
 
     // 유저에게 지도 정보 보내주기
     @EventListener
-    public void sendMapImageInfo(WebsocketInfo websocketInfo) throws IOException {
+    public void listen(WebsocketInfo websocketInfo) throws IOException {
 
         switch (websocketInfo.getCommand()){
             case SEND:
-                sessionService.sendData(websocketInfo);
+                sessionHandler.onComplete(websocketInfo);
                 break;
 
             case CLOSE:
-                sessionService.onClose(websocketInfo.getSession());
+                sessionHandler.onClose(websocketInfo.getSession());
                 break;
 
             default:

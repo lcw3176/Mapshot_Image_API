@@ -27,9 +27,11 @@
 
   /*]]>*/
 
-  var width;
+  var goalWidth;
   var zoomLevel;
   var maptype;
+  var defaultWidth = 1000;
+  var dynamicWidth = defaultWidth;
 
   if(type === "basic"){
     maptype = kakao.maps.MapTypeId.ROADMAP;
@@ -42,19 +44,19 @@
   switch (level){
     case 1:
       zoomLevel = 2;
-      width = 5000;
+      goalWidth = 5000;
       break;
     case 2:
       zoomLevel = 3;
-      width = 4000;
+      goalWidth = 4000;
       break;
     case 5:
       zoomLevel = 4;
-      width = 5000;
+      goalWidth = 5000;
       break;
     case 10:
       zoomLevel = 5;
-      width = 5000;
+      goalWidth = 5000;
       break;
     default:
       break;
@@ -66,8 +68,8 @@
     draggable: false,
     zoomable: false,
   };
-  container.style.height = width + "px";
-  container.style.width = width + "px";
+  container.style.height = dynamicWidth + "px";
+  container.style.width = dynamicWidth + "px";
 
   var map = new kakao.maps.Map(container, options);
   map.setMapTypeId(maptype);
@@ -76,16 +78,24 @@
     map.addOverlayMapTypeId(kakao.maps.MapTypeId.USE_DISTRICT);
   }
 
-  // 이벤트 지속적으로 강제 발생
-  map.relayout();
+  var timerId = setInterval(function (){
+    dynamicWidth += defaultWidth;
+    container.style.height = dynamicWidth + "px";
+    container.style.width = dynamicWidth + "px";
+    map.relayout();
+    map.setCenter(new kakao.maps.LatLng(lat, lng));
 
+    if(dynamicWidth >= goalWidth){
+      clearInterval(timerId);
 
+      // 카카오 지도 사용량이 많은지 점심 즈음 되면 지도 전체 타일을 불러오지를 못한다.
+      // 그래서 작은 사이즈의 지도 이미지부터 완성하며 큰 지도를 만드는 방식으로 변경경
+     kakao.maps.event.addListener(map, 'tilesloaded', function() {
+        document.getElementById("checker").setAttribute("id", "checker_true");
+      });
 
-  kakao.maps.event.addListener(map, 'tilesloaded', function() {
-    document.getElementById("checker").setAttribute("id", "checker_true");
-
-  });
-
+    }
+  }, 1000);
 
 </script>
 </body>

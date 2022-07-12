@@ -2,7 +2,6 @@ package com.joebrooks.mapshotimageapi.websocket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
 import com.joebrooks.mapshotimageapi.map.CompanyType;
 import org.junit.jupiter.api.Test;
 

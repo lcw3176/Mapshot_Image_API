@@ -3,7 +3,7 @@ package com.joebrooks.mapshotimageapi.map.kakao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.map.CompanyType;
-import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
+import com.joebrooks.mapshotimageapi.websocket.UserMapRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;

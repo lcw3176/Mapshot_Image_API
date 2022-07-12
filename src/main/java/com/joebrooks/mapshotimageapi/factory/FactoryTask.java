@@ -1,11 +1,11 @@
 package com.joebrooks.mapshotimageapi.factory;
 
-import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.util.UriComponents;
 
 @Getter
 @NoArgsConstructor
@@ -13,6 +13,7 @@ import org.springframework.web.socket.WebSocketSession;
 @Builder
 public class FactoryTask {
 
-    private UserMapRequest userMapRequest;
+    private UriComponents requestUri;
+    private int width;
     private WebSocketSession session;
 }

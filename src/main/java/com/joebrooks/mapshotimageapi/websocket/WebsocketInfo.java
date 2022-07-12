@@ -1,6 +1,5 @@
 package com.joebrooks.mapshotimageapi.websocket;
 
-import com.joebrooks.mapshotimageapi.global.model.UserMapResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +12,11 @@ import org.springframework.web.socket.WebSocketSession;
 @Builder
 public class WebsocketInfo {
 
-    private UserMapResponse userMapResponse;
+    private int index;
+    private int x;
+    private int y;
+    private String uuid;
+    private boolean error;
     private WebSocketSession session;
     private COMMAND command;
 
