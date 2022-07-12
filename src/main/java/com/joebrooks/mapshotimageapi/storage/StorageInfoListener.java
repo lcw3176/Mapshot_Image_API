@@ -11,7 +11,7 @@ public class StorageInfoListener {
     private final StorageService storageService;
 
     @EventListener
-    public void addImage(StorageInfo storageInfo){
+    public void listen(StorageInfo storageInfo){
 
         switch (storageInfo.getCommand()){
             case PUT:
