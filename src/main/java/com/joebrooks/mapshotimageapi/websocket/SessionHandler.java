@@ -46,6 +46,7 @@ public class SessionHandler {
                         .index(websocketInfo.getIndex())
                         .x(websocketInfo.getX())
                         .y(websocketInfo.getY())
+                        .error(websocketInfo.isError())
                         .uuid(websocketInfo.getUuid())
                         .build())));
     }
