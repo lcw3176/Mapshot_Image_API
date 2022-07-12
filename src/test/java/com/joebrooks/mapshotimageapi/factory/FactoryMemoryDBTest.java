@@ -1,6 +1,5 @@
 package com.joebrooks.mapshotimageapi.factory;
 
-import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
@@ -20,10 +19,8 @@ class FactoryMemoryDBTest {
 
         for(int i = 0; i < testSize; i++){
             queue.add(FactoryTask.builder()
-                    .userMapRequest(UserMapRequest.builder()
-                            .level(i)
-                            .build())
-                    .build());
+                            .width(i)
+                            .build());
         }
 
         for(int i = 0; i < testSize; i++){
@@ -40,7 +37,7 @@ class FactoryMemoryDBTest {
 
             if(queue.size() <= 0){
                 for(int i = 0; i < testSize; i++){
-                    assertEquals(i, factoryMemoryDB.pop().getUserMapRequest().getLevel());
+                    assertEquals(i, factoryMemoryDB.pop().getWidth());
                 }
 
                 assertTrue(factoryMemoryDB.isEmpty());
