@@ -11,11 +11,11 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
 
-    private final UserSocketHandler userSocketHandler;
+    private final MapRequestHandler mapRequestHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(userSocketHandler, "/map/register")
+        registry.addHandler(mapRequestHandler, "/map/register")
                 .setAllowedOrigins("https://kmapshot.com", "https://www.kmapshot.com")
                 .withSockJS();
     }
