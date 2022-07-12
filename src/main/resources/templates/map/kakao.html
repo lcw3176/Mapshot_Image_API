@@ -78,6 +78,17 @@
     map.addOverlayMapTypeId(kakao.maps.MapTypeId.USE_DISTRICT);
   }
 
+
+  // 카카오 지도 사용량이 많은지 점심 즈음 되면 지도 전체 타일을 불러오지를 못한다.
+  // 그래서 작은 사이즈의 지도 이미지부터 완성하며 큰 지도를 만드는 방식으로 변경경
+  kakao.maps.event.addListener(map, 'tilesloaded', function() {
+    if(dynamicWidth >= goalWidth){
+      document.getElementById("checker").setAttribute("id", "checker_true");
+    }
+  });
+
+
+
   var timerId = setInterval(function (){
     dynamicWidth += defaultWidth;
     container.style.height = dynamicWidth + "px";
@@ -87,13 +98,6 @@
 
     if(dynamicWidth >= goalWidth){
       clearInterval(timerId);
-
-      // 카카오 지도 사용량이 많은지 점심 즈음 되면 지도 전체 타일을 불러오지를 못한다.
-      // 그래서 작은 사이즈의 지도 이미지부터 완성하며 큰 지도를 만드는 방식으로 변경경
-     kakao.maps.event.addListener(map, 'tilesloaded', function() {
-        document.getElementById("checker").setAttribute("id", "checker_true");
-      });
-
     }
   }, 1000);
 
