@@ -3,10 +3,7 @@ package com.joebrooks.mapshotimageapi.factory;
 
 import com.joebrooks.mapshotimageapi.driver.DriverService;
 import com.joebrooks.mapshotimageapi.global.memorydb.IMemoryDB;
-import com.joebrooks.mapshotimageapi.global.model.UserMapResponse;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
-import com.joebrooks.mapshotimageapi.global.util.UriGenerator;
-import com.joebrooks.mapshotimageapi.global.util.WidthExtractor;
 import com.joebrooks.mapshotimageapi.storage.StorageInfo;
 import com.joebrooks.mapshotimageapi.websocket.WebsocketInfo;
 import lombok.RequiredArgsConstructor;
@@ -50,8 +47,8 @@ public class FactoryService {
             FactoryTask task = factoryMemoryDB.pop();
 
             try{
-                driverService.loadPage(UriGenerator.getUri(task.getUserMapRequest()));
-                int width = WidthExtractor.extract(task.getUserMapRequest());
+                driverService.loadPage(task.getRequestUri());
+                int width = task.getWidth();
 
                 for(int y = 0; y < width; y+= dividedWidth){
                     for(int x = 0; x < width; x+= dividedWidth){
@@ -71,13 +68,10 @@ public class FactoryService {
 
                             eventPublisher.publishEvent(
                                     WebsocketInfo.builder()
-                                            .userMapResponse(
-                                                    UserMapResponse.builder()
-                                                            .index(0)
-                                                            .x(x)
-                                                            .y(y)
-                                                            .uuid(uuid)
-                                                            .build())
+                                            .index(0)
+                                            .x(x)
+                                            .y(y)
+                                            .uuid(uuid)
                                             .session(task.getSession())
                                             .command(WebsocketInfo.COMMAND.SEND)
                                             .build()
@@ -105,11 +99,8 @@ public class FactoryService {
 
                 eventPublisher.publishEvent(
                         WebsocketInfo.builder()
-                                .userMapResponse(
-                                        UserMapResponse.builder()
-                                                .index(0)
-                                                .error(true)
-                                                .build())
+                                .index(0)
+                                .error(true)
                                 .session(task.getSession())
                                 .command(WebsocketInfo.COMMAND.SEND)
                                 .build()

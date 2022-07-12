@@ -3,7 +3,6 @@ package com.joebrooks.mapshotimageapi.websocket;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.factory.FactoryTask;
-import com.joebrooks.mapshotimageapi.global.model.UserMapRequest;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +46,8 @@ public class UserSocketHandler extends TextWebSocketHandler {
         webSocketSessionService.sendWaitersCount(session);
 
         eventPublisher.publishEvent(FactoryTask.builder()
-                .userMapRequest(request)
+                .requestUri(request.getUri())
+                .width(request.getWidth())
                 .session(session)
                 .build());
     }

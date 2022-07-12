@@ -2,7 +2,6 @@ package com.joebrooks.mapshotimageapi.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.global.memorydb.IMemoryDB;
-import com.joebrooks.mapshotimageapi.global.model.UserMapResponse;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,12 @@ public class WebSocketSessionService {
     // 이미지 정보 보내주기
     public void sendData(WebsocketInfo websocketInfo) throws IOException {
         websocketInfo.getSession().sendMessage(new TextMessage(
-                mapper.writeValueAsString(websocketInfo.getUserMapResponse())));
+                mapper.writeValueAsString(UserMapResponse.builder()
+                                .index(websocketInfo.getIndex())
+                                .x(websocketInfo.getX())
+                                .y(websocketInfo.getY())
+                                .uuid(websocketInfo.getUuid())
+                                .build())));
     }
 
     public void onClose(WebSocketSession session){
