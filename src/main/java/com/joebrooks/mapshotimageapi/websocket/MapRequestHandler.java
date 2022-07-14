@@ -37,10 +37,12 @@ public class MapRequestHandler extends AbstractMapRequestHandler {
         } catch (JsonProcessingException e){
             log.error("유효하지 않은 지도 포맷", e);
             slackClient.sendMessage(e);
-            sessionHandler.onClose(session);
-
             return;
         }
+        
+        // 봇으로 추정되는 애들이 소켓 커넥션만 해서 대기열 관리가 이상해진다
+        // 유저가 지도 요청을 보냈을 때에만 DB에 추가
+        sessionHandler.onConnect(session);
 
         // 현재 유저가 몇 번째 대기유저인지 보내준 후, 작업 시작
         sessionHandler.onProgress(session);
