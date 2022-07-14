@@ -107,14 +107,6 @@
 
   }, 500);
 
-  function plusSize(){
-    dynamicWidth += defaultWidth;
-    container.style.height = dynamicWidth + "px";
-    container.style.width = dynamicWidth + "px";
-    map.setCenter(new kakao.maps.LatLng(lat, lng));
-    map.relayout();
-  }
-
   // 카카오 지도가 한번에 전체 지도 이미지를 요청할 경우 간헐적으로 요청이 차단된다
   // 아마 지도 이미지를 한번에 너무 많이 요청해서 그런 것으로 추정함
   // 그래서 작은 사이즈의 지도 이미지부터 완성하며 큰 지도를 만드는 방식으로 변경
