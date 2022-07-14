@@ -78,35 +78,44 @@
     map.addOverlayMapTypeId(kakao.maps.MapTypeId.USE_DISTRICT);
   }
 
+  var intervalCount = 0;
   var finalLoading = false;
 
+  var timerId = setInterval(function (){
 
-  function plusSize(){
-    dynamicWidth += defaultWidth;
-    container.style.height = dynamicWidth + "px";
-    container.style.width = dynamicWidth + "px";
-    map.setCenter(new kakao.maps.LatLng(lat, lng));
-    map.relayout();
+    intervalCount++;
 
-    if(dynamicWidth >= goalWidth){
+    if(dynamicWidth < goalWidth){
+      dynamicWidth += defaultWidth;
+      container.style.height = dynamicWidth + "px";
+      container.style.width = dynamicWidth + "px";
+      map.setCenter(new kakao.maps.LatLng(lat, lng));
+      map.relayout();
+    }
+
+    else if(dynamicWidth >= goalWidth && !finalLoading){
       finalLoading = true;
       map.setCenter(new kakao.maps.LatLng(lat, lng));
       map.relayout();
     }
-  }
+
+    else if(finalLoading){
+      document.getElementById("checker").setAttribute("id", "checker_true");
+      clearInterval(timerId);
+    }
+
+    if(intervalCount >= 40){
+      clearInterval(timerId);
+    }
+
+  }, 1000);
 
   // 카카오 지도가 한번에 전체 지도 이미지를 요청할 경우 간헐적으로 요청이 차단된다
   // 아마 지도 이미지를 한번에 너무 많이 요청해서 그런 것으로 추정함
   // 그래서 작은 사이즈의 지도 이미지부터 완성하며 큰 지도를 만드는 방식으로 변경
-  kakao.maps.event.addListener(map, 'tilesloaded', function() {
-    if(finalLoading){
-      document.getElementById("checker").setAttribute("id", "checker_true");
-    } else {
-      plusSize();
-    }
-  });
-
-  plusSize();
+  // kakao.maps.event.addListener(map, 'tilesloaded', function() {
+  //   loadCount++;
+  // });
 
 
 
