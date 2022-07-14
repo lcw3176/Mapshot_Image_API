@@ -12,12 +12,6 @@ public abstract class AbstractMapRequestHandler extends TextWebSocketHandler {
 
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) {
-        sessionHandler.onConnect(session);
-    }
-
-
-    @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
         super.handleTransportError(session, exception);
         sessionHandler.onClose(session);
