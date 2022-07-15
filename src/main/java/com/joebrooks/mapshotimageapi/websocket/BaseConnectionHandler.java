@@ -6,7 +6,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @RequiredArgsConstructor
-public abstract class AbstractMapRequestHandler extends TextWebSocketHandler {
+public class BaseConnectionHandler extends TextWebSocketHandler {
 
     protected final SessionHandler sessionHandler;
 

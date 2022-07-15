@@ -25,11 +25,8 @@ public class SessionHandler {
     private final ObjectMapper mapper = new ObjectMapper();
     private final WebSocketSessionService webSocketSessionService;
 
-    public void onConnect(WebSocketSession session){
-        webSocketSessionService.addUser(session);
-    }
-
     public void onProgress(WebSocketSession session){
+        webSocketSessionService.addUser(session);
         sendWaitersCount(session);
     }
 
