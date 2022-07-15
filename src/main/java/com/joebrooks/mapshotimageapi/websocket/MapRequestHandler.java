@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.util.Optional;
+
 @Component
 @Slf4j
-public class MapRequestHandler extends AbstractMapRequestHandler {
+public class MapRequestHandler extends BaseConnectionHandler {
 
     private final ApplicationEventPublisher eventPublisher;
     private final SlackClient slackClient;
@@ -30,28 +32,35 @@ public class MapRequestHandler extends AbstractMapRequestHandler {
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) {
-        UserMapRequest request;
+
+        tryConvert(message).ifPresent(userMapRequest -> {
+            // 봇으로 추정되는 애들이 소켓 커넥션만 해서 대기열 관리가 이상해진다
+            // 유저가 지도 요청을 보냈을 때에만 DB 목록에 Session 추가
+            
+            // 유저를 SessionMemoryDB에 저장 후
+            // 현재 유저가 몇 번째 대기유저인지 보내준다
+            sessionHandler.onProgress(session);
+
+            eventPublisher.publishEvent(FactoryTask.builder()
+                    .requestUri(userMapRequest.getUri())
+                    .width(userMapRequest.getWidth())
+                    .session(session)
+                    .build());
+        });
+
+    }
+
+
+    private Optional<UserMapRequest> tryConvert(TextMessage message){
 
         try{
-            request = mapper.readValue(message.getPayload(), UserMapRequest.class);
+            return Optional.of(mapper.readValue(message.getPayload(), UserMapRequest.class));
         } catch (JsonProcessingException e){
             log.error("유효하지 않은 지도 포맷", e);
             slackClient.sendMessage(e);
-            return;
+
+            return Optional.empty();
         }
-        
-        // 봇으로 추정되는 애들이 소켓 커넥션만 해서 대기열 관리가 이상해진다
-        // 유저가 지도 요청을 보냈을 때에만 DB에 추가
-        sessionHandler.onConnect(session);
-
-        // 현재 유저가 몇 번째 대기유저인지 보내준 후, 작업 시작
-        sessionHandler.onProgress(session);
-
-        eventPublisher.publishEvent(FactoryTask.builder()
-                .requestUri(request.getUri())
-                .width(request.getWidth())
-                .session(session)
-                .build());
     }
 
 }
