@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.global.exception;
+package com.joebrooks.mapshotimageapi.global.sns;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExceptionResponse {
-    private String name;
+public class MessageResponse {
+    private String title;
     private String message;
 }
