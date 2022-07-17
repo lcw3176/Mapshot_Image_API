@@ -1,6 +1,5 @@
 package com.joebrooks.mapshotimageapi.global.sns;
 
-import com.joebrooks.mapshotimageapi.global.exception.ExceptionResponse;
 import lombok.experimental.UtilityClass;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -55,7 +54,7 @@ public class SlackMessageFormatter {
         return json;
     }
 
-    public String makeErrorMessage(ExceptionResponse message) {
+    public String makeErrorMessage(MessageResponse message) {
         JSONObject headerJson = getHeader("Error");
         Map<String, Object> map = new HashMap<>();
 
@@ -67,7 +66,7 @@ public class SlackMessageFormatter {
         JSONObject sectionOneJson = getSection(map);
         map.clear();
 
-        map.put("원인", message.getName());
+        map.put("원인", message.getTitle());
         JSONObject sectionTwoJson = getSection(map);
         map.clear();
 

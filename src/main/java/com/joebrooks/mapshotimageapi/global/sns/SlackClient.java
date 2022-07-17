@@ -1,6 +1,5 @@
 package com.joebrooks.mapshotimageapi.global.sns;
 
-import com.joebrooks.mapshotimageapi.global.exception.ExceptionResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -10,15 +9,14 @@ public class SlackClient extends SnsClient {
 
     private final String slackUrl = System.getenv("SLACK_URL");
 
-    public void sendMessage(ExceptionResponse errors) {
+    public void sendMessage(MessageResponse errors) {
         String message = SlackMessageFormatter.makeErrorMessage(errors);
-        getClient(slackUrl).post();
         post(slackUrl, message);
     }
 
     public void sendMessage(Exception e){
-        ExceptionResponse errorMessage = ExceptionResponse.builder()
-                .name(e.getClass().getName())
+        MessageResponse errorMessage = MessageResponse.builder()
+                .title(e.getClass().getName())
                 .message(makeTransmissible(e))
                 .build();
 
