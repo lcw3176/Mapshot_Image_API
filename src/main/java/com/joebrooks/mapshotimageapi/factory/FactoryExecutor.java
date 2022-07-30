@@ -3,7 +3,7 @@ package com.joebrooks.mapshotimageapi.factory;
 import com.joebrooks.mapshotimageapi.driver.DriverService;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.storage.StorageInfo;
-import com.joebrooks.mapshotimageapi.connection.response.ResponseInfo;
+import com.joebrooks.mapshotimageapi.order.response.ResponseInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

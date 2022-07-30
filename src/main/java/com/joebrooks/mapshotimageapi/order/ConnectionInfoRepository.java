@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.connection;
+package com.joebrooks.mapshotimageapi.order;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.web.socket.WebSocketSession;

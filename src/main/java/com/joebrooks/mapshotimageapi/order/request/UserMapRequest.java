@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.connection.request;
+package com.joebrooks.mapshotimageapi.order.request;
 
 
 import com.joebrooks.mapshotimageapi.map.CompanyType;

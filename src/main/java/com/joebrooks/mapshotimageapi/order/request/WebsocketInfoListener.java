@@ -1,7 +1,7 @@
-package com.joebrooks.mapshotimageapi.connection.request;
+package com.joebrooks.mapshotimageapi.order.request;
 
-import com.joebrooks.mapshotimageapi.connection.response.ResponseInfo;
-import com.joebrooks.mapshotimageapi.connection.response.SessionHandler;
+import com.joebrooks.mapshotimageapi.order.response.ResponseInfo;
+import com.joebrooks.mapshotimageapi.order.response.SessionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
-package com.joebrooks.mapshotimageapi.connection.request;
+package com.joebrooks.mapshotimageapi.order.request;
 
-import com.joebrooks.mapshotimageapi.connection.response.SessionHandler;
+import com.joebrooks.mapshotimageapi.order.response.SessionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;

@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.connection;
+package com.joebrooks.mapshotimageapi.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

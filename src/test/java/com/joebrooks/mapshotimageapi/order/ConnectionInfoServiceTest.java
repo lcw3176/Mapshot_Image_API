@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.connection;
+package com.joebrooks.mapshotimageapi.order;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,6 @@ import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ConnectionInfoServiceTest {

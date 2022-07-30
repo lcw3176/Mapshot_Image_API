@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.connection.response;
+package com.joebrooks.mapshotimageapi.order.response;
 
 import com.joebrooks.mapshotimageapi.global.memorydb.IMemoryDB;
 import lombok.RequiredArgsConstructor;

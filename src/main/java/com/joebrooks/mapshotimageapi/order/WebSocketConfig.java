@@ -1,6 +1,6 @@
-package com.joebrooks.mapshotimageapi.connection;
+package com.joebrooks.mapshotimageapi.order;
 
-import com.joebrooks.mapshotimageapi.connection.request.MapRequestHandler;
+import com.joebrooks.mapshotimageapi.order.request.MapRequestHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;

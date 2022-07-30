@@ -3,7 +3,7 @@ package com.joebrooks.mapshotimageapi.map.google;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.map.CompanyType;
-import com.joebrooks.mapshotimageapi.connection.request.UserMapRequest;
+import com.joebrooks.mapshotimageapi.order.request.UserMapRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
