@@ -1,16 +1,12 @@
-package com.joebrooks.mapshotimageapi.driver;
+package com.joebrooks.mapshotimageapi.factory.driver;
 
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v99.network.Network;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Optional;
 
 @Configuration
 public class ChromeDriverConfig {

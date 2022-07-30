@@ -1,7 +1,7 @@
 package com.joebrooks.mapshotimageapi.order.request;
 
 
-import com.joebrooks.mapshotimageapi.map.CompanyType;
+import com.joebrooks.mapshotimageapi.factory.map.CompanyType;
 import lombok.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;

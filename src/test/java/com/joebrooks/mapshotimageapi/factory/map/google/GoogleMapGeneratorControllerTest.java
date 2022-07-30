@@ -1,8 +1,8 @@
-package com.joebrooks.mapshotimageapi.map.google;
+package com.joebrooks.mapshotimageapi.factory.map.google;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joebrooks.mapshotimageapi.map.CompanyType;
+import com.joebrooks.mapshotimageapi.factory.map.CompanyType;
 import com.joebrooks.mapshotimageapi.order.request.UserMapRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

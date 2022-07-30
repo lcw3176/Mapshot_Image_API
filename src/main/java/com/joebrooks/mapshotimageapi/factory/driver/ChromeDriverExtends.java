@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.driver;
+package com.joebrooks.mapshotimageapi.factory.driver;
 
 
 import com.google.common.collect.ImmutableMap;

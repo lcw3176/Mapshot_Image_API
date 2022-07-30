@@ -1,6 +1,6 @@
 package com.joebrooks.mapshotimageapi.factory;
 
-import com.joebrooks.mapshotimageapi.driver.DriverService;
+import com.joebrooks.mapshotimageapi.factory.driver.DriverService;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.storage.StorageInfo;
 import com.joebrooks.mapshotimageapi.order.response.ResponseInfo;

@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.driver.exception;
+package com.joebrooks.mapshotimageapi.factory.driver.exception;
 
 public class ScreenshotException extends RuntimeException {
 

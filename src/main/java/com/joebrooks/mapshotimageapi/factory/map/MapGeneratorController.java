@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.map;
+package com.joebrooks.mapshotimageapi.factory.map;
 
 import com.joebrooks.mapshotimageapi.order.request.UserMapRequest;
 import org.springframework.stereotype.Controller;
