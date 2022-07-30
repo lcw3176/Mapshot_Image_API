@@ -1,5 +1,7 @@
-package com.joebrooks.mapshotimageapi.websocket;
+package com.joebrooks.mapshotimageapi.connection.request;
 
+import com.joebrooks.mapshotimageapi.connection.response.ResponseInfo;
+import com.joebrooks.mapshotimageapi.connection.response.SessionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -14,15 +16,15 @@ public class WebsocketInfoListener {
 
     // 유저에게 지도 정보 보내주기
     @EventListener
-    public void listen(WebsocketInfo websocketInfo) throws IOException {
+    public void listen(ResponseInfo responseInfo) throws IOException {
 
-        switch (websocketInfo.getCommand()){
+        switch (responseInfo.getCommand()){
             case SEND:
-                sessionHandler.onComplete(websocketInfo);
+                sessionHandler.onComplete(responseInfo);
                 break;
 
             case CLOSE:
-                sessionHandler.onClose(websocketInfo.getSession());
+                sessionHandler.onClose(responseInfo.getSession());
                 break;
 
             default:

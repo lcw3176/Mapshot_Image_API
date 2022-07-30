@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.websocket;
+package com.joebrooks.mapshotimageapi.connection.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import org.springframework.web.socket.WebSocketSession;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WebsocketInfo {
+public class ResponseInfo {
 
     private int index;
     private int x;

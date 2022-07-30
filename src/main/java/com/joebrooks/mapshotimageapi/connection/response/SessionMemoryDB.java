@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.websocket;
+package com.joebrooks.mapshotimageapi.connection.response;
 
 import com.joebrooks.mapshotimageapi.global.memorydb.IMemoryDB;
 import org.springframework.stereotype.Component;

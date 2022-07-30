@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.websocket;
+package com.joebrooks.mapshotimageapi.connection.response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
@@ -37,14 +37,14 @@ public class SessionHandler {
     }
 
     // 이미지 정보 보내주기
-    public void onComplete(WebsocketInfo websocketInfo) throws IOException {
-        websocketInfo.getSession().sendMessage(new TextMessage(
+    public void onComplete(ResponseInfo responseInfo) throws IOException {
+        responseInfo.getSession().sendMessage(new TextMessage(
                 mapper.writeValueAsString(UserMapResponse.builder()
-                        .index(websocketInfo.getIndex())
-                        .x(websocketInfo.getX())
-                        .y(websocketInfo.getY())
-                        .error(websocketInfo.isError())
-                        .uuid(websocketInfo.getUuid())
+                        .index(responseInfo.getIndex())
+                        .x(responseInfo.getX())
+                        .y(responseInfo.getY())
+                        .error(responseInfo.isError())
+                        .uuid(responseInfo.getUuid())
                         .build())));
     }
 

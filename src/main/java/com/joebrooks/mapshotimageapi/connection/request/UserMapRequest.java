@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.websocket;
+package com.joebrooks.mapshotimageapi.connection.request;
 
 
 import com.joebrooks.mapshotimageapi.map.CompanyType;

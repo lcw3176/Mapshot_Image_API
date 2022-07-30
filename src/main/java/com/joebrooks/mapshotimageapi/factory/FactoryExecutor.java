@@ -3,7 +3,7 @@ package com.joebrooks.mapshotimageapi.factory;
 import com.joebrooks.mapshotimageapi.driver.DriverService;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.storage.StorageInfo;
-import com.joebrooks.mapshotimageapi.websocket.WebsocketInfo;
+import com.joebrooks.mapshotimageapi.connection.response.ResponseInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,13 +63,13 @@ public class FactoryExecutor {
                                     .build());
 
                             eventPublisher.publishEvent(
-                                    WebsocketInfo.builder()
+                                    ResponseInfo.builder()
                                             .index(0)
                                             .x(x)
                                             .y(y)
                                             .uuid(uuid)
                                             .session(task.getSession())
-                                            .command(WebsocketInfo.COMMAND.SEND)
+                                            .command(ResponseInfo.COMMAND.SEND)
                                             .build()
                             );
 
@@ -94,11 +94,11 @@ public class FactoryExecutor {
 
 
                 eventPublisher.publishEvent(
-                        WebsocketInfo.builder()
+                        ResponseInfo.builder()
                                 .index(0)
                                 .error(true)
                                 .session(task.getSession())
-                                .command(WebsocketInfo.COMMAND.SEND)
+                                .command(ResponseInfo.COMMAND.SEND)
                                 .build()
                 );
 
@@ -109,9 +109,9 @@ public class FactoryExecutor {
                 // close 요청을 못보내고 연결이 끊길 경우를 대비해서
                 // 세션은 항상 DB 목록에서 지운다
                 eventPublisher.publishEvent(
-                        WebsocketInfo.builder()
+                        ResponseInfo.builder()
                                 .session(task.getSession())
-                                .command(WebsocketInfo.COMMAND.CLOSE)
+                                .command(ResponseInfo.COMMAND.CLOSE)
                                 .build()
                 );
             }
