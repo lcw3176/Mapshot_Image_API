@@ -1,28 +1,36 @@
-package com.joebrooks.mapshotimageapi.order.request;
+package com.joebrooks.mapshotimageapi.order;
 
-import com.joebrooks.mapshotimageapi.order.response.SessionHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+@Component
 @RequiredArgsConstructor
-public class BaseConnectionHandler extends TextWebSocketHandler {
+public class MapRequestHandler extends TextWebSocketHandler {
 
-    protected final SessionHandler sessionHandler;
+
+    private final OrderService orderService;
 
 
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
         super.handleTransportError(session, exception);
-        sessionHandler.onClose(session);
+        orderService.onClose(session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
-        sessionHandler.onClose(session);
+        orderService.onClose(session);
     }
 
+
+    @Override
+    public void handleTextMessage(WebSocketSession session, TextMessage message) {
+        orderService.onProgress(session, message);
+    }
 
 }

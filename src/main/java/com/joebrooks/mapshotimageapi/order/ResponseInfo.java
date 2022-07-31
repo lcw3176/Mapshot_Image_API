@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.order.response;
+package com.joebrooks.mapshotimageapi.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,10 +18,4 @@ public class ResponseInfo {
     private String uuid;
     private boolean error;
     private WebSocketSession session;
-    private COMMAND command;
-
-    public enum COMMAND{
-        SEND,
-        CLOSE
-    }
 }

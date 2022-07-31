@@ -22,7 +22,6 @@ public class StorageController {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
-                .contentLength(imageArrayResource.contentLength())
                 .body(imageArrayResource);
     }
 }

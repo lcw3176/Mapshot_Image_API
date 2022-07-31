@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 
@@ -48,9 +47,9 @@ public class DriverService{
 
     }
 
-    public ByteArrayResource capturePage(){
+    public byte[] capturePage(){
         try {
-            return new ByteArrayResource(chromeDriverExtends.getScreenshot());
+            return chromeDriverExtends.getScreenshot();
         } catch (Exception e){
             throw new ScreenshotException(e);
         }

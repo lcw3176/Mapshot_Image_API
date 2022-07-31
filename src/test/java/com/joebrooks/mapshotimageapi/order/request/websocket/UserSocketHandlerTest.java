@@ -3,7 +3,7 @@ package com.joebrooks.mapshotimageapi.order.request.websocket;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshotimageapi.factory.map.CompanyType;
-import com.joebrooks.mapshotimageapi.order.request.UserMapRequest;
+import com.joebrooks.mapshotimageapi.order.UserMapRequest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
