@@ -12,8 +12,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.LinkedList;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.List;
 
 
 @Service
@@ -23,7 +24,7 @@ public class OrderService {
 
     private final SlackClient slackClient;
     private final ObjectMapper mapper = new ObjectMapper();
-    private final CopyOnWriteArrayList<WebSocketSession> sessionList = new CopyOnWriteArrayList<>();
+    private final List<WebSocketSession> sessionList = Collections.synchronizedList(new LinkedList<>());
     private final FactoryService factoryService;
 
     public void onProgress(WebSocketSession session, TextMessage message){
