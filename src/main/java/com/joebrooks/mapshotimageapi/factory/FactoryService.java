@@ -1,7 +1,6 @@
 package com.joebrooks.mapshotimageapi.factory;
 
 
-import com.joebrooks.mapshotimageapi.global.memorydb.IMemoryDB;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,17 +9,17 @@ import org.springframework.stereotype.Service;
 public class FactoryService {
 
 
-    private final IMemoryDB<FactoryTask> factoryMemoryDB;
+    private final FactoryWaitQueue factoryWaitQueue;
 
     public void addTask(FactoryTask factoryTask){
-        factoryMemoryDB.add(factoryTask);
+        factoryWaitQueue.add(factoryTask);
     }
 
     public FactoryTask getTask(){
-        return factoryMemoryDB.pop();
+        return factoryWaitQueue.pop();
     }
 
     public boolean isEmpty(){
-        return factoryMemoryDB.isEmpty();
+        return factoryWaitQueue.isEmpty();
     }
 }

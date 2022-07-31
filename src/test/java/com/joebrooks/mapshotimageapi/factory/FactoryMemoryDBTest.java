@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FactoryMemoryDBTest {
 
-    private final FactoryMemoryDB factoryMemoryDB = new FactoryMemoryDB();
+    private final FactoryWaitQueue factoryMemoryDB = new FactoryWaitQueue();
     private final Queue<FactoryTask> queue = new LinkedList<>();
 
     @Test
