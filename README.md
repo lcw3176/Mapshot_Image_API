@@ -24,12 +24,11 @@
 - Slack API, WhaTap
 - GitHub Action
 
-## 전체 이미지 서비스 구조도
-![zaaa (1) drawio (1)](https://user-images.githubusercontent.com/59993347/182024159-d3b4753d-2aaa-4c44-80e2-c2688aeb5d27.png)
+## 서비스 구조도
+![구성도](https://user-images.githubusercontent.com/59993347/182296076-dd7ddbcc-8def-4442-b9d4-330a10e008c0.jpg)
 
-## Mapshot Image API 서비스 상세 구조도
-![요청](https://user-images.githubusercontent.com/59993347/182024155-142df107-f72b-401a-95d5-5a90fbcfb9dc.jpg)
-![발급](https://user-images.githubusercontent.com/59993347/182024157-de692cee-34a2-42c9-805b-64470dd5ea5a.jpg)
+## 전체 이미지 서비스 구조도
+![zaaa (1) drawio (2)](https://user-images.githubusercontent.com/59993347/182296392-c8b233ff-ce33-49db-a2d7-0f833df15d47.png)
 
 ## 관련 프로젝트
 - 메인 프로젝트 서버: [Mapshot_Service](https://github.com/lcw3176/Mapshot_Service)
