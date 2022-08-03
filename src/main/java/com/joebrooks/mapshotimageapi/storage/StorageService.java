@@ -1,7 +1,6 @@
 package com.joebrooks.mapshotimageapi.storage;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 
 
@@ -19,11 +18,13 @@ public class StorageService {
         storageRepository.deleteAll();
     }
 
-    public ByteArrayResource getImage(String uuid){
+    public Storage pop(String uuid){
         Storage storage = storageRepository.findByUuid(uuid);
-        ByteArrayResource byteArrayResource = new ByteArrayResource(storage.getImageByte());
+        Storage copyValue = Storage.builder()
+                .imageByte(storage.getImageByte())
+                .build();
         storageRepository.delete(storage);
 
-        return byteArrayResource;
+        return copyValue;
     }
 }

@@ -12,12 +12,10 @@ import org.springframework.data.redis.core.index.Indexed;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@RedisHash("Storage")
+@RedisHash("storage")
 public class Storage {
 
     @Id
-    private String id;
-
     @Indexed
     private String uuid;
 

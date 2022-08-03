@@ -18,7 +18,7 @@ public class StorageController {
 
     @GetMapping("/{uuid}")
     public ResponseEntity<ByteArrayResource> findCompletedImage(@PathVariable String uuid){
-        ByteArrayResource imageArrayResource = storageService.getImage(uuid);
+        ByteArrayResource imageArrayResource = new ByteArrayResource(storageService.pop(uuid).getImageByte());
 
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
