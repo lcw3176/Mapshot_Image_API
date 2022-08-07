@@ -8,22 +8,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StorageService {
 
-    private final StorageRepository storageRepository;
+    private final StorageMap storageMap;
 
     public void add(Storage storage){
-        storageRepository.save(storage);
+        storageMap.save(storage);
     }
 
     public void clear(){
-        storageRepository.deleteAll();
+        storageMap.deleteAll();
     }
 
     public Storage pop(String uuid){
-        Storage storage = storageRepository.findByUuid(uuid);
+        Storage storage = storageMap.findByUuid(uuid);
         Storage copyValue = Storage.builder()
                 .imageByte(storage.getImageByte())
                 .build();
-        storageRepository.delete(storage);
+        storageMap.delete(uuid);
 
         return copyValue;
     }
