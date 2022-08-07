@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Component
 public class StorageMap {
@@ -12,12 +11,8 @@ public class StorageMap {
     private Map<String, Storage> map = new HashMap<>();
 
 
-    public String save(Storage storage){
-        String uuid = UUID.randomUUID().toString();
-
-        map.put(uuid, storage);
-
-        return uuid;
+    public void save(Storage storage){
+        map.put(storage.getUuid(), storage);
     }
 
     public void deleteAll(){
