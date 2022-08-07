@@ -2,9 +2,6 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
-  redis:
-    host: localhost
-    port: 6379
 
 map:
   image:
