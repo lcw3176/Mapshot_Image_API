@@ -86,6 +86,7 @@ public class OrderService {
         OrderResponse refreshedResponse = OrderResponse.builder()
                 .index(userSessionList.indexOf(session))
                 .error(false)
+                .uuid(null)
                 .build();
 
         try {
