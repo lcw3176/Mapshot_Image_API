@@ -21,9 +21,14 @@ public class DeliverService {
     private final SlackClient slackClient;
     private final IDataReceiver storageReceiver;
 
-
+    //todo 더 깔끔한 방법 구상좀 해보자
     public Delivery setup(Delivery delivery){
         if(delivery.isError()){
+            storageReceiver.receive(Storage.builder()
+                    .imageByte(delivery.getImageByte())
+                    .error(delivery.isError())
+                    .build());
+
             return delivery;
         }
 
