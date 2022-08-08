@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.user;
+package com.joebrooks.mapshotimageapi.deliver;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserResponse {
-
+public class DeliveryResponse {
 
     // 유저 대기 순번
     @JsonProperty("index")

@@ -25,7 +25,7 @@
 - GitHub Action
 
 ## 서비스 구조도
-![구성도](https://user-images.githubusercontent.com/59993347/182626981-cbfe7a8f-70a4-4d80-b6a6-e5b8ac3635c7.jpg)
+![구조도](https://user-images.githubusercontent.com/59993347/183434054-958959a2-40a9-48bf-a437-42f46e59c5e0.jpg)
 
 ## 전체 이미지 서비스 구조도
 ![zaaa (1) drawio (2)](https://user-images.githubusercontent.com/59993347/182296392-c8b233ff-ce33-49db-a2d7-0f833df15d47.png)

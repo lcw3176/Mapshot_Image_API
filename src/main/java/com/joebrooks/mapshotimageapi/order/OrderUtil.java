@@ -1,7 +1,5 @@
-package com.joebrooks.mapshotimageapi.processing;
+package com.joebrooks.mapshotimageapi.order;
 
-
-import com.joebrooks.mapshotimageapi.user.UserRequest;
 import lombok.experimental.UtilityClass;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -10,10 +8,9 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 @UtilityClass
-public class ProcessingUtil {
+public class OrderUtil {
 
-    public UriComponents getUri(Processing processing){
-        UserRequest order = processing.getRequest();
+    public UriComponents getUri(Order order){
 
         return UriComponentsBuilder
                 .newInstance()
@@ -29,11 +26,10 @@ public class ProcessingUtil {
     }
 
 
-    public int getWidth(Processing processing){
-        UserRequest request = processing.getRequest();
+    public int getWidth(Order order){
 
-        return Arrays.stream(request.getCompanyType().getMapRadius())
-                .filter(i -> i.getLevel() == request.getLevel())
+        return Arrays.stream(order.getCompanyType().getMapRadius())
+                .filter(i -> i.getLevel() == order.getLevel())
                 .findFirst()
                 .orElseThrow(NoSuchElementException::new)
                 .getWidth();

@@ -1,30 +1,26 @@
 package com.joebrooks.mapshotimageapi.storage;
 
+import com.joebrooks.mapshotimageapi.global.IDataStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 
 @Service
 @RequiredArgsConstructor
 public class StorageService {
 
-    private final StorageMap storageMap;
+    private final IDataStore<Storage> storageMap;
+
+    public boolean isValidate(Storage storage){
+        if(storage.isError()){
+            storageMap.clear();
+
+            return false;
+        }
+
+        return true;
+    }
 
     public void add(Storage storage){
-        storageMap.save(storage);
-    }
-
-    public void clear(){
-        storageMap.deleteAll();
-    }
-
-    public Storage pop(String uuid){
-        Storage storage = storageMap.findByUuid(uuid);
-        Storage copyValue = Storage.builder()
-                .imageByte(storage.getImageByte())
-                .build();
-        storageMap.delete(uuid);
-
-        return copyValue;
+        storageMap.add(storage);
     }
 }
