@@ -11,13 +11,7 @@ public class StorageService {
     private final IDataStore<Storage> storageMap;
 
     public boolean isValidate(Storage storage){
-        if(storage.isError()){
-            storageMap.clear();
-
-            return false;
-        }
-
-        return true;
+      return !storage.isError();
     }
 
     public void add(Storage storage){

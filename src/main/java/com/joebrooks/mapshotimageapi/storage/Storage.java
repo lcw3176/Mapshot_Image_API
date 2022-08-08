@@ -15,5 +15,9 @@ public class Storage implements IData {
     private String uuid;
     private byte[] imageByte;
     private boolean error;
+
+    // todo
+    // 생성 시각 추가하고
+    // 스케줄러로 잉여 파일들 정리할 예정
 }
 
