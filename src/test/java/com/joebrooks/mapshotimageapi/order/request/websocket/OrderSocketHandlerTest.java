@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserRequestSocketHandlerTest {
+class OrderSocketHandlerTest {
 
     @Test
     void 매핑_테스트() throws JsonProcessingException {

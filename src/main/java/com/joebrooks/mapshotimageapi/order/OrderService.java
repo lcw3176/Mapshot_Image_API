@@ -1,10 +1,10 @@
-package com.joebrooks.mapshotimageapi.user;
+package com.joebrooks.mapshotimageapi.order;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joebrooks.mapshotimageapi.global.IDataReceiver;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.processing.Processing;
-import com.joebrooks.mapshotimageapi.processing.ProcessingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,20 +19,22 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService {
+public class OrderService {
 
     private final SlackClient slackClient;
     private final ObjectMapper mapper;
-    private final List<WebSocketSession> sessionList = Collections.synchronizedList(new LinkedList<>());
-    private final ProcessingService processingService;
+
+    private final IDataReceiver processingReceiver;
+
+    private final List<WebSocketSession> userSessionList = Collections.synchronizedList(new LinkedList<>());
 
     public void closeSession(WebSocketSession session){
-        sessionList.remove(session);
+        userSessionList.remove(session);
     }
 
     public void broadcastWaiterCounts(){
-        for (WebSocketSession sessions : sessionList) {
-            sendWaitInfoMessage(sessions);
+        for (WebSocketSession session : userSessionList) {
+            sendWaitInfoMessage(session);
         }
     }
 
@@ -44,13 +46,14 @@ public class UserService {
     public void onReceive(WebSocketSession session, TextMessage message){
 
         try {
-            UserRequest request = mapper.readValue(message.getPayload(), UserRequest.class);
+            Order order = mapper.readValue(message.getPayload(), Order.class);
 
-            sessionList.add(session);
+            userSessionList.add(session);
             noticeWaitNumber(session);
 
-            processingService.addTask(Processing.builder()
-                    .request(request)
+            processingReceiver.receive(Processing.builder()
+                    .requestUri(OrderUtil.getUri(order))
+                    .mapWidth(OrderUtil.getWidth(order))
                     .session(session)
                     .build());
 
@@ -58,6 +61,9 @@ public class UserService {
             log.error("유효하지 않은 지도 포맷", e);
             slackClient.sendMessage(e);
 
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            slackClient.sendMessage(e);
         }
     }
 
@@ -70,35 +76,15 @@ public class UserService {
 
 
 
-    // 이미지 정보 보내주기
-    public boolean sendInfo(UserResponse userResponse, WebSocketSession session) {
-        if(!session.isOpen()){
-            return false;
-        }
-
-        try{
-            session.sendMessage(new TextMessage(mapper.writeValueAsString(userResponse)));
-            return true;
-        } catch (IOException e){
-            log.error("메세지 전송 에러", e);
-            slackClient.sendMessage(e);
-
-            return false;
-        }
-
-    }
-
-
-
     private void sendWaitInfoMessage(WebSocketSession session){
 
         if(!session.isOpen()){
-            sessionList.remove(session);
+            userSessionList.remove(session);
             return;
         }
 
-        UserResponse refreshedResponse = UserResponse.builder()
-                .index(sessionList.indexOf(session))
+        OrderResponse refreshedResponse = OrderResponse.builder()
+                .index(userSessionList.indexOf(session))
                 .build();
 
         try {

@@ -1,30 +1,34 @@
 package com.joebrooks.mapshotimageapi.storage;
 
+import com.joebrooks.mapshotimageapi.global.IDataStore;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class StorageMap {
+public class StorageMap implements IDataStore<Storage> {
 
     private Map<String, Storage> map = new HashMap<>();
 
 
-    public void save(Storage storage){
-        map.put(storage.getUuid(), storage);
+    @Override
+    public boolean isEmpty() {
+        return map.isEmpty();
     }
 
-    public void deleteAll(){
-        map.clear();
+    @Override
+    public void add(Storage data) {
+        map.put(data.getUuid(), data);
     }
 
-    public Storage findByUuid(String uuid){
+    @Override
+    public Storage get(Object uuid) {
         return map.get(uuid);
     }
 
-    public void delete(String uuid){
-        map.remove(uuid);
+    @Override
+    public void clear() {
+        map.clear();
     }
-
 }

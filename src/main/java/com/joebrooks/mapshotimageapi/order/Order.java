@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.user;
+package com.joebrooks.mapshotimageapi.order;
 
 import com.joebrooks.mapshotimageapi.processing.map.CompanyType;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserRequest {
+public class Order {
 
     // 도시 계획 레이어 적용 여부
     private boolean layerMode;

@@ -1,18 +1,17 @@
 package com.joebrooks.mapshotimageapi.processing;
 
+import com.joebrooks.mapshotimageapi.deliver.Delivery;
+import com.joebrooks.mapshotimageapi.global.IDataReceiver;
+import com.joebrooks.mapshotimageapi.global.IDataStore;
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.processing.driver.DriverService;
-import com.joebrooks.mapshotimageapi.storage.Storage;
-import com.joebrooks.mapshotimageapi.storage.StorageService;
-import com.joebrooks.mapshotimageapi.user.UserResponse;
-import com.joebrooks.mapshotimageapi.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
+import java.io.IOException;
 
 
 /*
@@ -25,29 +24,28 @@ uuid 값을 제작합니다.
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ImageProcessorCore {
+public class ProcessWorker {
 
-    private final UserService userService;
-    private final StorageService storageService;
+    private final IDataReceiver deliveryReceiver;
 
     private final DriverService driverService;
     private final SlackClient slackClient;
-    private final ProcessingService processingService;
+    private final IDataStore<Processing> processingQueue;
 
     @Value("${map.image.dividedWidth}")
     private int dividedWidth;
 
 
     @Scheduled(fixedDelay = 1000)
-    public void execute() {
+    public void execute() throws IOException {
 
-        if(!processingService.isEmpty()){
-            Processing task = processingService.getTask();
+        if(!processingQueue.isEmpty()){
+            Processing task = processingQueue.get(null);
 
             try{
 
-                driverService.loadPage(ProcessingUtil.getUri(task));
-                int width = ProcessingUtil.getWidth(task);
+                driverService.loadPage(task.getRequestUri());
+                int width = task.getMapWidth();
 
                 for(int y = 0; y < width; y+= dividedWidth){
                     for(int x = 0; x < width; x+= dividedWidth){
@@ -55,48 +53,41 @@ public class ImageProcessorCore {
                         driverService.scrollPage(x, y);
                         byte[] imageByte = driverService.capturePage();
 
-                        String uuid = UUID.randomUUID().toString();
-
-                        UserResponse response = UserResponse.builder()
+                        Delivery delivery = Delivery.builder()
                                         .index(0)
                                         .x(x)
                                         .y(y)
-                                        .uuid(uuid)
+                                        .session(task.getSession())
+                                        .imageByte(imageByte)
                                         .build();
 
-                        storageService.add(Storage.builder()
-                                .uuid(uuid)
-                                .imageByte(imageByte)
-                                .build());
-
-                        if(!userService.sendInfo(response, task.getSession())){
-                            storageService.clear();
-
+                        if(!deliveryReceiver.receive(delivery)){
                             return;
                         }
-
 
                     }
                 }
 
 
             } catch (Exception e){
-                storageService.clear();
 
-                UserResponse response = UserResponse.builder()
+                Delivery delivery = Delivery.builder()
                         .index(0)
+                        .session(task.getSession())
                         .error(true)
                         .build();
 
-                userService.sendInfo(response, task.getSession());
+                deliveryReceiver.receive(delivery);
 
                 log.error(e.getMessage(), e);
                 slackClient.sendMessage(e);
 
             } finally {
-                userService.onClose(task.getSession());
+                task.getSession().close();
             }
         }
+
+
     }
 
 }
