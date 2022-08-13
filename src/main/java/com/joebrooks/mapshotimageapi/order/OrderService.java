@@ -23,24 +23,8 @@ public class OrderService {
 
     private final SlackClient slackClient;
     private final ObjectMapper mapper;
-
     private final IDataReceiver processingReceiver;
-
     private final List<WebSocketSession> userSessionList = Collections.synchronizedList(new LinkedList<>());
-
-    public void closeSession(WebSocketSession session){
-        userSessionList.remove(session);
-    }
-
-    public void broadcastWaiterCounts(){
-        for (WebSocketSession session : userSessionList) {
-            sendWaitInfoMessage(session);
-        }
-    }
-
-    public void noticeWaitNumber(WebSocketSession session){
-        sendWaitInfoMessage(session);
-    }
 
 
     public void onReceive(WebSocketSession session, TextMessage message){
@@ -49,7 +33,7 @@ public class OrderService {
             Order order = mapper.readValue(message.getPayload(), Order.class);
 
             userSessionList.add(session);
-            noticeWaitNumber(session);
+            sendWaitInfoMessage(session);
 
             processingReceiver.receive(Processing.builder()
                     .requestUri(OrderUtil.getUri(order))
@@ -69,8 +53,11 @@ public class OrderService {
 
 
     public void onClose(WebSocketSession session){
-        closeSession(session);
-        broadcastWaiterCounts();
+        userSessionList.remove(session);
+
+        for (WebSocketSession users : userSessionList) {
+            sendWaitInfoMessage(users);
+        }
     }
 
 

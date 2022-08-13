@@ -27,7 +27,6 @@ uuid 값을 제작합니다.
 public class ProcessWorker {
 
     private final IDataReceiver deliveryReceiver;
-
     private final DriverService driverService;
     private final SlackClient slackClient;
     private final IDataStore<Processing> processingQueue;
@@ -37,7 +36,7 @@ public class ProcessWorker {
 
 
     @Scheduled(fixedDelay = 1000)
-    public void execute() throws IOException {
+    public void execute() {
 
         if(!processingQueue.isEmpty()){
             Processing task = processingQueue.get(null);
@@ -82,8 +81,6 @@ public class ProcessWorker {
                 log.error(e.getMessage(), e);
                 slackClient.sendMessage(e);
 
-            } finally {
-                task.getSession().close();
             }
         }
 
