@@ -9,7 +9,7 @@ import java.util.Map;
 @Component
 public class StorageMap implements IDataStore<Storage> {
 
-    private Map<String, Storage> map = new HashMap<>();
+    private final Map<String, Storage> map = new HashMap<>();
 
 
     @Override
