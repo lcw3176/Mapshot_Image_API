@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -25,7 +26,6 @@ public class DeliverService {
     public Delivery setup(Delivery delivery){
         if(delivery.isError()){
             storageReceiver.receive(Storage.builder()
-                    .imageByte(delivery.getImageByte())
                     .error(delivery.isError())
                     .build());
 
@@ -38,6 +38,7 @@ public class DeliverService {
                 .uuid(uuid)
                 .imageByte(delivery.getImageByte())
                 .error(delivery.isError())
+                .createdAt(LocalDateTime.now())
                 .build());
 
         delivery.setUuid(uuid);
