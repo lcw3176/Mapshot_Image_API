@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,5 +17,6 @@ public class Storage implements IData {
     private String uuid;
     private byte[] imageByte;
     private boolean error;
+    private LocalDateTime createdAt;
 }
 
