@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,9 +17,6 @@ public class Storage implements IData {
     private String uuid;
     private byte[] imageByte;
     private boolean error;
-
-    // todo
-    // 생성 시각 추가하고
-    // 스케줄러로 잉여 파일들 정리할 예정
+    private LocalDateTime createdAt;
 }
 

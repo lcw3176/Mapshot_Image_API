@@ -3,8 +3,7 @@ package com.joebrooks.mapshotimageapi.storage;
 import com.joebrooks.mapshotimageapi.global.IDataStore;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class StorageMap implements IDataStore<Storage> {
@@ -28,7 +27,18 @@ public class StorageMap implements IDataStore<Storage> {
     }
 
     @Override
-    public void clear() {
-        map.clear();
+    public void remove(Object key) {
+        map.remove(key);
+    }
+
+    @Override
+    public List<Storage> getAll(){
+        List<Storage> temp = new LinkedList<>();
+
+        for(String i : map.keySet()){
+            temp.add(map.get(i));
+        }
+
+        return temp;
     }
 }

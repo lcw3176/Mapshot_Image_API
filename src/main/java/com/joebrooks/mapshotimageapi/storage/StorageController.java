@@ -1,6 +1,5 @@
 package com.joebrooks.mapshotimageapi.storage;
 
-import com.joebrooks.mapshotimageapi.global.IDataStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
@@ -15,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/map/storage")
 public class StorageController {
 
-    private final IDataStore<Storage> storageMap;
+    private final StorageService storageService;
 
     @GetMapping("/{uuid}")
     public ResponseEntity<ByteArrayResource> findCompletedImage(@PathVariable String uuid){
-        ByteArrayResource imageArrayResource = new ByteArrayResource(storageMap.get(uuid).getImageByte());
+        ByteArrayResource imageResource = storageService.getImage(uuid);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
-                .body(imageArrayResource);
+                .body(imageResource);
     }
 }
