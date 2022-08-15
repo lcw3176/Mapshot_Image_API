@@ -13,9 +13,6 @@ public interface IDataStore<T extends IData> {
         return Collections.emptyList();
     }
 
-    default void clear(){
-
-    }
 
     default void remove(Object key){
 
