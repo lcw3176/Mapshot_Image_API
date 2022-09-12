@@ -24,6 +24,56 @@
 - Slack API, WhaTap
 - GitHub Action
 
+## 이미지 제작
+- url: /map/register
+- protocol: wss
+### 요청
+|이름|설명|
+|------|---|
+|layerMode|도시 계획 레이어 적용 여부|
+|lat|요청한 지도 이미지의 중심 위도|
+|lng|요청한 지도 이미지의 중심 경도|
+|level|지도 반경 값|
+|type|지도 생성 타입|
+|companyType|지도 이미지를 가져올 회사 타입|
+
+```json
+{
+    'layerMode': false,  
+    'lat': 37.62694456943613,  
+    'lng': 127.0333501248575,  
+    'level': 2, 
+    'type': 'basic', 
+    'companyType': 'kakao'
+}
+```
+
+### 응답
+|이름|설명|
+|------|---|
+|index|유저 대기 순번|
+|error|에러 발생 플래그 |
+|uuid|서버에 보관된 이미지 UUID 정보|
+
+```json
+{
+  'index': 0,
+  'error': false,
+  'uuid': 'sdgx-23523.....'
+}
+```
+
+## 이미지 반환
+- url: /map/storage/{uuid}
+- protocol: http
+### 요청
+|이름|설명|
+|------|---|
+|uuid|유저가 제작 요청한 이미지의 uuid|
+
+### 응답
+jpeg Image
+
 ## 서비스 구조도
 ![구조도](https://user-images.githubusercontent.com/59993347/183434054-958959a2-40a9-48bf-a437-42f46e59c5e0.jpg)
 
