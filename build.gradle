@@ -55,10 +55,5 @@ test {
     useJUnitPlatform()
 }
 
-build {
-    dependsOn copyDocument
-}
-
-
 
 
