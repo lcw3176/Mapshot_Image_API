@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.processing.map;
+package com.joebrooks.mapshotimageapi.task.map;
 
 import lombok.Getter;
 

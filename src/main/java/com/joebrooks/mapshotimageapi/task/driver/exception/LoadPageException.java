@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.processing.driver.exception;
+package com.joebrooks.mapshotimageapi.task.driver.exception;
 
 public class LoadPageException extends RuntimeException {
 

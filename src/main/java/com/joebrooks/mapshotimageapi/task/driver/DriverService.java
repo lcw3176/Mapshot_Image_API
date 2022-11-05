@@ -1,8 +1,8 @@
-package com.joebrooks.mapshotimageapi.processing.driver;
+package com.joebrooks.mapshotimageapi.task.driver;
 
-import com.joebrooks.mapshotimageapi.processing.driver.exception.LoadPageException;
-import com.joebrooks.mapshotimageapi.processing.driver.exception.ScreenshotException;
-import com.joebrooks.mapshotimageapi.processing.driver.exception.ScrollException;
+import com.joebrooks.mapshotimageapi.task.driver.exception.LoadPageException;
+import com.joebrooks.mapshotimageapi.task.driver.exception.ScreenshotException;
+import com.joebrooks.mapshotimageapi.task.driver.exception.ScrollException;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;

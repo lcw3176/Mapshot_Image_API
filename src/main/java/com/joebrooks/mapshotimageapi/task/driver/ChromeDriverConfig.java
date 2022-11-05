@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotimageapi.processing.driver;
+package com.joebrooks.mapshotimageapi.task.driver;
 
 
 import org.openqa.selenium.Dimension;
