@@ -16,7 +16,7 @@ public class WaiterController {
     private final SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/waiter")
-    @SendTo("/queue/waiter")
+    @SendTo("/topic/waiter")
     public Waiter addWaiters(@Header("simpSessionId") String sessionId){
         int position = waiterService.getWaiterPosition(sessionId);
 
