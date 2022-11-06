@@ -28,7 +28,7 @@ public class WaiterController {
 
     @EventListener
     public void noticeWaitCountToUsers(Waiter waiter){
-        messagingTemplate.convertAndSend("/queue/waiter", waiter);
+        messagingTemplate.convertAndSend("/topic/waiter", waiter);
     }
 
 
