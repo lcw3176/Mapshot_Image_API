@@ -1,6 +1,5 @@
 package com.joebrooks.mapshotimageapi.storage;
 
-import com.joebrooks.mapshotimageapi.global.IDataStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
@@ -11,14 +10,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StorageService {
 
-    private final IDataStore<Storage> storageMap;
+    private final StorageMap storageMap;
 
-    public boolean isValidate(Storage storage){
-      return !storage.isError();
-    }
 
     public void add(Storage storage){
-        storageMap.add(storage);
+        storageMap.put(storage);
     }
 
     public ByteArrayResource getImage(String uuid){
