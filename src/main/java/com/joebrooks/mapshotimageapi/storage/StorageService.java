@@ -12,9 +12,6 @@ public class StorageService {
 
     private final StorageMap storageMap;
 
-    public boolean isValidate(Storage storage){
-      return !storage.isError();
-    }
 
     public void add(Storage storage){
         storageMap.put(storage);
