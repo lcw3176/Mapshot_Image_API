@@ -2,7 +2,7 @@ package com.joebrooks.mapshotimageapi.task;
 
 import com.joebrooks.mapshotimageapi.global.sns.SlackClient;
 import com.joebrooks.mapshotimageapi.storage.Storage;
-import com.joebrooks.mapshotimageapi.storage.StorageMap;
+import com.joebrooks.mapshotimageapi.storage.StorageService;
 import com.joebrooks.mapshotimageapi.task.driver.DriverService;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -21,8 +21,8 @@ public class TaskWorker {
 
     private final DriverService driverService;
     private final SlackClient slackClient;
-    private final TaskQueue taskQueue;
-    private final StorageMap map;
+    private final TaskService taskService;
+    private final StorageService storageService;
     private final ApplicationEventPublisher eventPublisher;
 
     @Value("${map.image.dividedWidth}")
@@ -32,8 +32,8 @@ public class TaskWorker {
     @Scheduled(fixedDelay = 1000)
     public void execute() {
 
-        if(!taskQueue.isEmpty()){
-            TaskRequest task = taskQueue.poll();
+        if(!taskService.isTaskEmpty()){
+            TaskRequest task = taskService.getUserRequestTask();
 
             try{
                 driverService.loadPage(TaskUtil.getUri(task));
@@ -46,7 +46,7 @@ public class TaskWorker {
                         byte[] imageByte = driverService.capturePage();
                         String uuid = UUID.randomUUID().toString();
 
-                        map.put(Storage.builder()
+                        storageService.add(Storage.builder()
                                         .createdAt(LocalDateTime.now())
                                         .uuid(uuid)
                                         .imageByte(imageByte)

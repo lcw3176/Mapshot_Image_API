@@ -12,4 +12,12 @@ public class TaskService {
     public void addTask(TaskRequest taskRequest){
         taskQueue.add(taskRequest);
     }
+
+    public boolean isTaskEmpty(){
+        return taskQueue.isEmpty();
+    }
+
+    public TaskRequest getUserRequestTask(){
+        return taskQueue.poll();
+    }
 }
