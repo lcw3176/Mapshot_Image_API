@@ -32,6 +32,7 @@
   var maptype;
   var defaultWidth = 500;
   var dynamicWidth = defaultWidth;
+  var offset = 500;
 
   if(type === "basic"){
     maptype = kakao.maps.MapTypeId.ROADMAP;
@@ -85,17 +86,16 @@
 
     intervalCount++;
 
-    if(dynamicWidth <= goalWidth && !finalLoading){
+    if(dynamicWidth <= goalWidth + offset && !finalLoading){
       dynamicWidth += defaultWidth;
     }
 
-    if(dynamicWidth > goalWidth && !finalLoading){
-      dynamicWidth -= defaultWidth;
+    if(dynamicWidth > goalWidth + offset && !finalLoading){
       finalLoading = true;
     }
 
-    container.style.height = dynamicWidth + "px";
-    container.style.width = dynamicWidth + "px";
+    container.style.height = goalWidth + "px";
+    container.style.width = goalWidth + "px";
     map.setCenter(new kakao.maps.LatLng(lat, lng));
     map.relayout();
 
