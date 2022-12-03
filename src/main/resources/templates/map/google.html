@@ -26,9 +26,6 @@
         var type = ([[${mapRequest.type}]]);
         /*]]>*/
 
-
-        var defaultWidth = 500;
-        var dynamicWidth = defaultWidth;
         var width;
         var zoomLevel;
         var maptype;
@@ -71,40 +68,14 @@
             keyboardShortcuts: false
         };
 
-        container.style.height = dynamicWidth + "px";
-        container.style.width = dynamicWidth + "px";
+        container.style.height = width + "px";
+        container.style.width = width + "px";
 
         var map = new google.maps.Map(container, options);
 
-        var intervalCount = 0;
-        var finalLoading = false;
-
-        var timerId = setInterval(function (){
-
-            intervalCount++;
-
-            if(dynamicWidth < width && !finalLoading){
-                dynamicWidth += defaultWidth;
-                container.style.height = dynamicWidth + "px";
-                container.style.width = dynamicWidth + "px";
-                map.setCenter(new google.maps.LatLng(lat, lng));
-            }
-
-
-            else if(dynamicWidth >= width && !finalLoading){
-                finalLoading = true;
-            }
-
-            else if(finalLoading){
-                document.getElementById("checker").setAttribute("id", "checker_true");
-                clearInterval(timerId);
-            }
-
-            if(intervalCount >= 40){
-                clearInterval(timerId);
-            }
-
-        }, 1000);
+        google.maps.event.addListener(map, 'tilesloaded', function() {
+            document.getElementById("checker").setAttribute("id", "checker_true");
+        });
     }
 
 
