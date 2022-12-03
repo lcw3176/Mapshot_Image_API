@@ -85,14 +85,20 @@
 
             if(dynamicWidth <= width && !finalLoading){
                 dynamicWidth += defaultWidth;
+                container.style.height = dynamicWidth + "px";
+                container.style.width = dynamicWidth + "px";
+                map.setCenter(new google.maps.LatLng(lat, lng));
+
             }
 
-            container.style.height = width + "px";
-            container.style.width = width + "px";
-            map.setCenter(new google.maps.LatLng(lat, lng));
 
             if(dynamicWidth > width && !finalLoading){
+                dynamicWidth -= defaultWidth;
                 finalLoading = true;
+                container.style.height = dynamicWidth + "px";
+                container.style.width = dynamicWidth + "px";
+                map.setCenter(new google.maps.LatLng(lat, lng));
+
                 return;
             }
 

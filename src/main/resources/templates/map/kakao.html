@@ -87,16 +87,21 @@
 
     if(dynamicWidth <= goalWidth && !finalLoading){
       dynamicWidth += defaultWidth;
+      container.style.height = dynamicWidth + "px";
+      container.style.width = dynamicWidth + "px";
+      map.setCenter(new kakao.maps.LatLng(lat, lng));
+      map.relayout();
     }
-
-    container.style.height = goalWidth + "px";
-    container.style.width = goalWidth + "px";
-    map.setCenter(new kakao.maps.LatLng(lat, lng));
-    map.relayout();
 
 
     if(dynamicWidth > goalWidth && !finalLoading){
+      dynamicWidth -= defaultWidth;
       finalLoading = true;
+      container.style.height = dynamicWidth + "px";
+      container.style.width = dynamicWidth + "px";
+      map.setCenter(new kakao.maps.LatLng(lat, lng));
+      map.relayout();
+
       return;
     }
 
