@@ -29,7 +29,6 @@
 
         var defaultWidth = 500;
         var dynamicWidth = defaultWidth;
-        var offset = 500;
         var width;
         var zoomLevel;
         var maptype;
@@ -84,17 +83,18 @@
 
             intervalCount++;
 
-            if(dynamicWidth <= width + offset && !finalLoading){
+            if(dynamicWidth <= width && !finalLoading){
                 dynamicWidth += defaultWidth;
-            }
-
-            if(dynamicWidth > width + offset && !finalLoading){
-                finalLoading = true;
             }
 
             container.style.height = width + "px";
             container.style.width = width + "px";
             map.setCenter(new google.maps.LatLng(lat, lng));
+
+            if(dynamicWidth > width && !finalLoading){
+                finalLoading = true;
+                return;
+            }
 
             if(finalLoading){
                 document.getElementById("checker").setAttribute("id", "checker_true");
