@@ -8,13 +8,13 @@ public enum CompanyType {
             KakaoMapRadius.ONE,
             KakaoMapRadius.TWO,
             KakaoMapRadius.FIVE,
-            KakaoMapRadius.TEN }),
+            KakaoMapRadius.TEN });
 
-    google(new IMapRadius[]{
-            GoogleMapRadius.ONE,
-            GoogleMapRadius.TWO,
-            GoogleMapRadius.FIVE,
-            GoogleMapRadius.TEN });
+//    google(new IMapRadius[]{
+//            GoogleMapRadius.ONE,
+//            GoogleMapRadius.TWO,
+//            GoogleMapRadius.FIVE,
+//            GoogleMapRadius.TEN });
 
     private final IMapRadius[] mapRadius;
 

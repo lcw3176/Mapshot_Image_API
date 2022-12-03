@@ -18,11 +18,11 @@ public class MapGeneratorController {
         return "map/kakao";
     }
 
-    @GetMapping("/google")
-    public String getGoogleMap(@ModelAttribute TaskRequest mapRequest, Model model){
-        model.addAttribute("mapRequest", mapRequest);
-
-        return "map/google";
-    }
+//    @GetMapping("/google")
+//    public String getGoogleMap(@ModelAttribute TaskRequest mapRequest, Model model){
+//        model.addAttribute("mapRequest", mapRequest);
+//
+//        return "map/google";
+//    }
 
 }
