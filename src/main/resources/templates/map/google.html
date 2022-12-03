@@ -83,26 +83,19 @@
 
             intervalCount++;
 
-            if(dynamicWidth <= width && !finalLoading){
+            if(dynamicWidth < width && !finalLoading){
                 dynamicWidth += defaultWidth;
                 container.style.height = dynamicWidth + "px";
                 container.style.width = dynamicWidth + "px";
                 map.setCenter(new google.maps.LatLng(lat, lng));
-
             }
 
 
-            if(dynamicWidth > width && !finalLoading){
-                dynamicWidth -= defaultWidth;
+            else if(dynamicWidth >= width && !finalLoading){
                 finalLoading = true;
-                container.style.height = dynamicWidth + "px";
-                container.style.width = dynamicWidth + "px";
-                map.setCenter(new google.maps.LatLng(lat, lng));
-
-                return;
             }
 
-            if(finalLoading){
+            else if(finalLoading){
                 document.getElementById("checker").setAttribute("id", "checker_true");
                 clearInterval(timerId);
             }
