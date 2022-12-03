@@ -85,21 +85,22 @@
 
     intervalCount++;
 
-    if(dynamicWidth < goalWidth){
+    if(dynamicWidth <= goalWidth && !finalLoading){
       dynamicWidth += defaultWidth;
-      container.style.height = dynamicWidth + "px";
-      container.style.width = dynamicWidth + "px";
-      map.setCenter(new kakao.maps.LatLng(lat, lng));
-      map.relayout();
     }
 
-    else if(dynamicWidth >= goalWidth && !finalLoading){
+    if(dynamicWidth > goalWidth && !finalLoading){
+      dynamicWidth -= defaultWidth;
       finalLoading = true;
-      map.setCenter(new kakao.maps.LatLng(lat, lng));
-      map.relayout();
     }
 
-    else if(finalLoading){
+    container.style.height = dynamicWidth + "px";
+    container.style.width = dynamicWidth + "px";
+    map.setCenter(new kakao.maps.LatLng(lat, lng));
+    map.relayout();
+
+
+    if(finalLoading){
       document.getElementById("checker").setAttribute("id", "checker_true");
       clearInterval(timerId);
     }
